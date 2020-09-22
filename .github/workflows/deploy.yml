@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: build
+        run: npm ci && npm run-script java:build
+        
+      - name: commit
+        run: |
+          cd dist
+          git config --global user.email "vipcrab@foxmail.com"
+          git config --global user.name "pycrab"
+          git init
+          git remote add origin https://${{ secrets.ACTION_KEEPJAVA }}@github.com/pycrab/KeepJava.git
+          git add .
+          git commit -m "update"
+          
+      - name: deploy
+        run: |
+          cd dist
+          git push -f origin master:gh-pages

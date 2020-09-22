@@ -1,0 +1,19 @@
+{
+  "name": "KeepJava",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "java:dev": "vuepress dev docs",
+    "java:build": "vuepress build docs"
+  },
+  "keywords": [],
+  "author": "pycrab",
+  "license": "ISC",
+  "devDependencies": {
+    "vuepress": "^1.5.4",
+    "@vuepress/plugin-back-to-top": "^1.5.4",
+    "@vuepress/plugin-medium-zoom": "^1.5.4",
+    "vuepress-plugin-code-copy": "^1.0.6"
+  }
+}
