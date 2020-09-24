@@ -3,21 +3,22 @@ port: 2727
 locales:
   /: {lang: zh-CN, title: KeepJava, description: Java程序人生, head: [
     ['link', { rel: 'icon', href: '/assets/logo/java.svg' }],
-    ['meta', { name: 'robots', content: 'all' }],
     ['meta', { name: 'author', content: 'pycrab' }],
-    ['meta', {name: 'apple-mobile-web-app-capable', content: 'yes'}],
+    ['meta', { name: 'robots', content: 'all' }],
+    ['meta', { name: 'copyright', content: 'pycrab' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes'}],
     ['meta', { name: 'keywords', content: 'Java基础, Java进阶, Java体系, Java编程, Spring框架, Spring Boot框架, Spring MVC框架' }]
 #    ['script', {src: 'https://hm.baidu.com/hm.js?xxxxxxxxxxx'}]
   ]}
 
 markdown:
-  lineNumbers: true
-  extractHeaders: ['h2', 'h3', 'h4']
   anchor:
-    permalinkSymbol: 🌱
+    permalinkSymbol: 🎋
+  extractHeaders: ['h2', 'h3', 'h4', 'h5', 'h6']
   externalLinks:
     target: _blank
     rel: 'noopener noreferrer'
+  lineNumbers: true
 
 themeConfig:
   smoothScroll: true
@@ -27,7 +28,7 @@ themeConfig:
   repoLabel: Github
   docsRepo: pycrab/KeepJava
   editLinks: true
-  editLinkText: 'Edit Me in Github'
+  editLinkText: 'Edit Me On Github'
   lastUpdated: 'Last Updated'
 
   nav:
@@ -46,13 +47,12 @@ themeConfig:
     - {text: 数据库, link: /}
     - {text: 分布式, link: /}
     - {text: 中间件, link: /}
-    - {text: 工具, link: /tools/}
+    - {text: 工具|技能, link: /tools/}
     - {text: Windows, link: /windows/}
 
   sidebar: auto
-  displayAllHeaders: true
 
 dest: dist
 base: /KeepJava/
 
-plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom', 'code-copy']
+plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom']
