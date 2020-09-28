@@ -33,9 +33,9 @@ themeConfig:
 
   nav:
     - {text: 指南, link: /guide/, target: _self, rel: }
-    - {text: Java SE, items: [
-      {text: 基础, link: /},
-      {text: 进阶, link: /}
+    - {text: JDK, items: [
+      {text: JDK 各版本对比, link: /jdk/version},
+      {text: IO, link: /jdk/io}
     ]}
     - {text: Java EE, items: [
       {text: 框架, items: [
@@ -47,8 +47,9 @@ themeConfig:
     - {text: 数据库, link: /}
     - {text: 分布式, link: /}
     - {text: 中间件, link: /}
+    - {text: 解决方案, link: /solution/}
+    - {text: 基本功, link: /base/}
     - {text: 工具|技能, link: /tools/}
-    - {text: Windows, link: /windows/}
 
   sidebar: auto
 
