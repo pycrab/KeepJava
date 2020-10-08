@@ -138,7 +138,7 @@ Git 命令及其参数可以通过命令行来查看，查询所有命令手册 
   git status
   
   # 状态简要信息（--short）
-  # 简要信息中，?? 表示未跟踪文件，M 表示已修改未暂存，MM 表示暂存后又修改未暂存，A 表示新跟踪的文件，AM 表示新跟踪的又修改了未暂存，D 表示已删除
+  # 简要信息中，红色字符表示未暂存，绿色表示已暂存。?? 表示未跟踪文件，M 表示已修改，MM 表示暂存后又修改未暂存，A 表示新跟踪的文件，AM 表示新跟踪的又修改了未暂存，D 表示已删除
   git status -s
   
   # 查看尚未暂存的文件变更（工作区中）
@@ -331,6 +331,7 @@ Git 命令及其参数可以通过命令行来查看，查询所有命令手册 
 # 新建 a.txt 文件
 git add a.txt
 git commit -m "first commit"
+git push origin master:origin/master
 
 # 新建 b.txt 文件，并修改 a.txt 文件
 git add b.txt a.txt
@@ -420,7 +421,7 @@ git tag -a v1.0 -m "标签信息"
 
 - **凭证存储**
 
-  如果使用SSH连接远程仓库，则可以安全传输数据；但是如果使用HTTP协议来传输，则需要每次都输入账号和密码。我们可以选择存储HTTP凭证：
+  如果使用 SSH 连接远程仓库，则可以安全传输数据；但是如果使用 HTTP 协议来传输，则需要每次都输入账号和密码。我们可以选择存储 HTTP 凭证：
 
   - 存储在内存中，15分钟过期 `git config --global credential.helper cache`
   - 明文存储在硬盘中，永不过期 `git config --global credential.helper store`
@@ -444,12 +445,12 @@ git tag -a v1.0 -m "标签信息"
 - **重写历史**
 
   ```shell
-  # 修补提交，比如刚提交完，需要修改提交信息或者将漏提交的补上，流程如下
+  # 修补提交，比如刚提交完，需要修改提交信息或者将漏提交的补上，流程如下：
   git commit -m "not complete"
   git add last
   git commit --amend [--no-edit]
   
-  # 修改提交信息 / 排序提交历史 / 合并提交
+  # 修改最新三条提交信息 / 排序提交历史 / 合并提交
   git rebase -i HEAD~3
   
   # 远程仓库合并提交（容易挨打，轻易不要使用）

@@ -18,7 +18,7 @@ footer: MIT Licensed | Copyright © 2020-present pycrab
 
 ---
 
-> 多借鉴他人的学习历程，闻道有先后，愿自己也能成为Java学习路上的传道解惑之人。
+> 多借鉴他人的学习历程，闻道有先后，愿自己也能成为 Java 学习路上的传道解惑之人。
 
 ---
 
