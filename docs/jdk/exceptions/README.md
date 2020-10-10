@@ -3,10 +3,10 @@ title: Java 异常
 description: Java 异常
 meta:
   - name: keywords
-    content: 异常，Exception
+    content: Java 异常，Exception
 tags: ['Exception']
-prev: 
-next:
+prev: ../annotation/
+next: ../generics/
 ---
 
 ## 什么是异常
@@ -174,7 +174,7 @@ try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 }
 ```
 
-### 优势
+## Java 异常优势
 
 使用 Java 异常处理程序相比传统错误处理代码的优势如下：
 
