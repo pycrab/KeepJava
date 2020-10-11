@@ -95,7 +95,7 @@ public class BusOrderException extends BusException {
 
 ​		首先必须使用 try 块包裹可能产生异常的代码块。
 
-​		使用 catch 依次顺序捕获指定异常；一个 catch 块可以使用竖线 | 分隔异常来处理一种以上类型的异常<badge>JDK 7</badge>，处理一种以上类型的异常时，catch 块的参数是隐式的 final 类型，不可修改；catch 块和 finally 块至少有一个。
+​		使用 catch 依次顺序捕获指定异常；一个 catch 块可以使用竖线 | 分隔异常来处理一种以上类型的异常<badge>JDK 7</badge>，处理一种以上类型的异常时，catch 块的参数是隐式的 final 类型，不可修改；catch 块和 finally 块至少有一个（使用 try - with - resources 形式时可以只有 try 块）。
 
 ​		在 try 和 catch 退出时执行 finally 块中的代码，finally 至多有一个。示例：
 
