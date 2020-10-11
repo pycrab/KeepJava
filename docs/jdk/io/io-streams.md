@@ -19,7 +19,7 @@ java.io 包中主要有四个共两种抽象基类：以字节为单位的字节
 
 ### 字节流
 
-![字节流.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-bytes.png)
+![字节流部分继承类.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-bytes.png)
 
 字节流提供的常用抽象方法如下：
 
@@ -43,7 +43,7 @@ java.io 包中主要有四个共两种抽象基类：以字节为单位的字节
 
 ### 字符流
 
-![字符流.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-characters.png)
+![字符流部分继承类.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-characters.png)
 
 字符流提供的抽象方法和字节流类似。
 
@@ -57,7 +57,7 @@ Closeable 接口的 close() 方法可以执行多次，对已经关闭的资源�
 
 ## 流的分类
 
-继承自字节流类和字符流类的类分为以下几种：
+继承自字节流类和字符流类的类分为以下几种，这里列出一些常见的：
 
 ### 节点流
 
@@ -191,7 +191,7 @@ try {
 
 ### 包装流
 
-使用 [装饰器模式]()，包装节点流添加额外的行为，这些流有：
+使用 [装饰器模式]()，包装节点流添加额外的行为，这些流大部分继承自 FilterOutputStream 类：
 
 #### 缓冲流
 
@@ -227,6 +227,51 @@ try (final FileWriter writer = new FileWriter("test.txt", StandardCharsets.UTF_8
 
 :::
 
+#### 数据流
+
+DataInputStream 类和 DataOutputStream 类提供 Java 原始数据类型的处理，数据流支持基本类型和 String 类型的数据，使用浮点数表示货币值，不支持精确浮点值。程序员需保证写入和读出的数据类型一致。
+
+```java
+try (final DataOutputStream outputStream = new DataOutputStream(new FileOutputStream("test.txt"));
+     final DataInputStream inputStream = new DataInputStream(new FileInputStream("test.txt"))) {
+    outputStream.writeBoolean(true);
+    outputStream.writeInt(123);
+    outputStream.writeUTF("欧克");
+    
+    System.out.println(inputStream.readBoolean());
+    System.out.println(inputStream.readInt());
+    System.out.println(inputStream.readUTF());
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+#### 格式化流
+
+PrintStream 类和 PrintWriter 类。针对格式化的输入可以通过 Scanner 类进行包装，从而进行格式化扫描。
+
+#### 回读流
+
+PushbackInputStream 类和 PushbackReader 类。可以将读到（read）的数据放到缓冲队列（unread）中重新读取（read）。
+
+#### Zip 流
+
+![Zip 流继承图.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-zip.png)
+
+位于 java.util.zip 包中的 ZipInputStream 类和 ZipOutputStream 类可以操作 ZIP 文件。下面演示打包一个文件：
+
+```java
+try (final ZipOutputStream outputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream("test.zip")));
+     final FileInputStream inputStream = new FileInputStream("test.txt")) {
+    // putNextEntry 开启一个文件目录（相对路径）
+    outputStream.putNextEntry(new ZipEntry("txt/test.txt"));
+    // 写入数据
+    outputStream.write(inputStream.readAllBytes());
+    // 打包完成关闭目录
+    outputStream.closeEntry();
+}
+```
+
 #### 对象流
 
 ObjectInputStream 类和 ObjectOutputStream 类提供 Java 对象类型和原始数据类型的处理，支持对象的序列化和反序列化。
@@ -247,27 +292,6 @@ try (final ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutp
 }
 ```
 
-#### 数据流
-
-DataInputStream 类和 DataOutputStream 类提供 Java 原始数据类型的处理，数据流支持基本类型和 String 类型的数据，使用浮点数表示货币值，不支持精确浮点值。程序员需保证写入和读出的数据类型一致。
-
-```java
-try (final DataOutputStream outputStream = new DataOutputStream(new FileOutputStream("test.txt"));
-     final DataInputStream inputStream = new DataInputStream(new FileInputStream("test.txt"))) {
-    outputStream.writeBoolean(true);
-    outputStream.writeInt(123);
-    outputStream.writeUTF("欧克");
-    
-    System.out.println(inputStream.readBoolean());
-    System.out.println(inputStream.readInt());
-    System.out.println(inputStream.readUTF());
-} catch (IOException e) {
-    e.printStackTrace();
-}
-```
-
-
-
 #### 转换流
 
 根据指定字符集将字节流转换为字符流的类：InputStreamReader 和 OutputStreamWriter。
@@ -286,14 +310,6 @@ try (final InputStreamReader reader = new InputStreamReader(new FileInputStream(
 #### 顺序输入流
 
 SequenceInputStream 类提供按顺序读取多个输入流。
-
-#### 格式化流
-
-PrintStream 类和 PrintWriter 类。针对格式化的输入可以通过 Scanner 类进行包装，从而进行格式化扫描。
-
-#### 回读流
-
-PushbackInputStream 类和 PushbackReader 类。可以将读到（read）的数据放到缓冲队列（unread）中重新读取（read）。
 
 ---
 
