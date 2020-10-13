@@ -33,9 +33,18 @@ themeConfig:
 
   nav:
     - {text: 指南, link: /guide/, target: _self, rel: }
-    - {text: JDK, items: [
-      {text: JDK 各版本对比, link: /jdk/version},
-      {text: IO, link: /jdk/io}
+    - {text: Java SE, items: [
+      {text: Java 语言基础, link: /jdk/introduction/},
+      {text: Java 发展简史, link: /jdk/version/},
+      {text: 面向对象编程, link: /jdk/object/},
+      {text: Java 反射, link: /jdk/reflection/},
+      {text: Java 注解, link: /jdk/annotation/},
+      {text: Java 异常, link: /jdk/exceptions/},
+      {text: Java 泛型, link: /jdk/generics/},
+      {text: Java 集合, link: /jdk/collection/},
+      {text: Java IO, link: /jdk/io/},
+      {text: Java 线程, link: /jdk/thread/},
+      {text: Java 额外技能, link: /jdk/skill/}
     ]}
     - {text: Java EE, items: [
       {text: 框架, items: [
@@ -48,7 +57,9 @@ themeConfig:
     - {text: 分布式, link: /}
     - {text: 中间件, link: /}
     - {text: 解决方案, link: /solution/}
-    - {text: 基本功, link: /base/}
+    - {text: 思想|概念, items: [
+      {text: 设计模式, link: /idea/patterns/}
+    ]}
     - {text: 工具|技能, link: /tools/}
 
   sidebar: auto
