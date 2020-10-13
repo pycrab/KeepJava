@@ -1,39 +1,41 @@
 ---
-title: IO Streams
-description: IO Streams
+title: Java 传统 IO 类库
+description: Java 传统 IO 流
 meta:
   - name: keywords
-    content: IO Streams
-tags: ['IO Streams']
+    content: Java 传统 IO 流
+tags: ['Java 传统 IO 流', 'IO 流']
 prev: ./
-next: 
+next: ./new-io
 ---
+
+## 流
+
+传统 IO 中使用流来传递、操纵、转换数据，流就是简单字节、原始数据类型、本地化字符或者对象组成的数据序列，流只支持单向传输。
+
+一次 IO 流就是数据从一个源到一个目的地的过程，它可能存在磁盘文件、外围设备（键盘等）、其它程序（通过网络）或者内存序列之间。其中，向内存写入的流称为**输入流**，从内存中输出的流称为**输出流**。
 
 ## 流的数据类型
 
-Java 在内存中是以**字节**为存储单位的，读写数据也都是一个个字节按顺序读写，所以最基本的流就是字节流，所有与内存的操作最后都会转换为字节流。
+Java 在内存中是以**字节**为存储单位的，读写数据也都是按字节一个个顺序读写，所以最基本的流就是字节流，所有与内存的操作最后都会转换为字节流。
 
-java.io 包中主要有四个共两种抽象基类：以字节为单位的字节流和以字符为单位的字符流。我们知道，抽象基类只能被继承，无法实例化对象。
+java.io 包中主要有四个抽象基类，它定义了两种流数据传输格式：以字节为单位的字节流和以字符为单位的字符流。字节流主要用于处理原始数据，比如图像，要处理文档等字符类型要考虑使用字符流。
 
-字节流主要用于处理原始数据，比如图像，要处理文档等字符类型要考虑字符流。
+我们知道，抽象基类只能被继承，无法实例化对象。字节流和字符流的继承类图如下：
+
+![字节流部分继承类图.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-bytes.png)
+
+![字符流部分继承类图.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-characters.png)
 
 ### 字节流
-
-![字节流部分继承类.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-bytes.png)
 
 字节流提供的常用抽象方法如下：
 
 - 输入流
-  - read() 方法，每次读取一个字节并以 int 的形式返回值，如果没有字节可读则返回 -1
+  - read() 方法，每次读取一个字节并以 int 的形式返回值（低八位），如果没有字节可读则返回 -1
   - read(byte[]) 方法，每次读取指定个数的字节并放到缓存数组中，返回实际读取的字节数，没有字节可读返回 -1
   - close() 方法，关闭输入流，并释放该流关联的所有系统资源
   - transferTo(OutputStream out) 方法，将此输入流写入到指定输出流，默认使用缓冲区大小为 8M
-
-  ::: warning 阻塞
-
-  输入流在进行读取数据时，会阻塞到读取完成或者抛出异常。
-
-  :::
 
 - 输出流
 
@@ -43,17 +45,7 @@ java.io 包中主要有四个共两种抽象基类：以字节为单位的字节
 
 ### 字符流
 
-![字符流部分继承类.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-characters.png)
-
 字符流提供的抽象方法和字节流类似。
-
-::: warning 流的关闭
-
-字节流（InputStream、OutputStream）和字符流（Reader、Writer）都实现了 Closeable 接口中的 close() 方法，也就是说，打开的流都需要手动调用 close() 方法关闭，因为垃圾收集器只能回收内存中的对象，无法回收流。
-
-Closeable 接口的 close() 方法可以执行多次，对已经关闭的资源是没有影响的，它是幂等的；而它的父类 AutoCloseable 接口的 close() 方法不是幂等的，多次执行可能产生副作用，所以要求实现 AutoCloseable 接口的类自己实现幂等。
-
-:::
 
 ## 流的分类
 
@@ -189,9 +181,9 @@ try {
 
 ---
 
-### 包装流
+### 装饰流
 
-使用 [装饰器模式]()，包装节点流添加额外的行为，这些流大部分继承自 FilterOutputStream 类：
+使用 [装饰器设计模式](../../idea/patterns/decorator-mode)，包装节点流添加额外的行为，这些流大部分继承自 FilterXXX 类：
 
 #### 缓冲流
 
@@ -253,6 +245,10 @@ PrintStream 类和 PrintWriter 类。针对格式化的输入可以通过 Scanne
 #### 回读流
 
 PushbackInputStream 类和 PushbackReader 类。可以将读到（read）的数据放到缓冲队列（unread）中重新读取（read）。
+
+### 适配流
+
+使用 [适配器设计模式](../../idea/patterns/adapter-mode)，改变原始类的行为，这些流有：
 
 #### Zip 流
 
@@ -319,5 +315,64 @@ SequenceInputStream 类提供按顺序读取多个输入流。
 - 标准输出流 System.out 和 System.err （PrintStream）
 - 控制台 System.console() （Console），提供真正的字符流
 
+## 流的关闭
 
+字节流（InputStream、OutputStream）和字符流（Reader、Writer）都实现了 Closeable 接口中的 close() 方法。因为垃圾收集器只能回收内存中的对象，无法回收流，所以打开的流都需要手动调用 close() 方法关闭。
+
+通常我们需要使用 try -catch - finally 块来打开和关闭流，并捕获已检查的异常：
+
+```java
+FileInputStream inputStream = null;
+try {
+    inputStream = new FileInputStream("test.txt");
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+} finally {
+    if (null != inputStream) {
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+JDK 7 提供的 try - with - resources 语法糖可以省略 finally 块来自动关闭资源：
+
+```java
+try (FileInputStream inputStream = new FileInputStream("test.txt")) {
+    inputStream.read();
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+```
+
+JDK 9 更是简化了 try - with - resources 流的声明，如果不可变的流在 try 块外已经初始化，JDK 9 之后可以直接使用，无需再次声明：
+
+```java
+// JDK 9 之前
+FileInputStream inputStream = new FileInputStream("test.txt");
+try (FileInputStream fileInputStream = inputStream) {
+    fileInputStream.read();
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+
+// JDK 9 之后
+FileInputStream inputStream = new FileInputStream("test.txt");
+try (inputStream) {
+    inputStream.read();
+} catch (FileNotFoundException e) {
+    e.printStackTrace();
+}
+```
+
+::: warning 提示
+
+Closeable 接口的 close() 方法可以执行多次，对已经关闭的资源是没有影响的，它是幂等的；而它的父类 AutoCloseable 接口的 close() 方法不是幂等的，多次执行可能产生副作用，所以要求实现 AutoCloseable 接口的类自己实现幂等。
+
+:::
+
+## 网络流
 

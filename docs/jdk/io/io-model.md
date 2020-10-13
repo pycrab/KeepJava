@@ -4,7 +4,7 @@ description: UNIX IO 模型
 meta:
   - name: keywords
     content: UNIX IO 模型，Java IO，BIO 阻塞 IO，NIO 非阻塞 IO，IO 多路复用，事件驱动 IO，信号启动 IO，异步IO
-tags: ['Java IO', 'UNIX IO 模型', 'BIO 阻塞 IO', 'NIO 非阻塞 IO', 'IO 多路复用', '事件驱动 IO', '信号启动 IO','异步IO']
+tags: ['Java IO', 'UNIX IO 模型', 'BIO 阻塞 IO', 'NIO 非阻塞 IO', 'IO 多路复用', '事件驱动 IO', '信号启动 IO', '异步IO']
 prev: ./
 next: ./file-copy
 ---
