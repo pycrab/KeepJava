@@ -5,7 +5,7 @@ meta:
   - name: keywords
     content: Java 额外技能
 tags: ['Java 额外技能']
-prev: ../thread/
+prev: ../concurrency/
 next: 
 ---
 
@@ -18,3 +18,5 @@ next:
 ## [Java 平台环境](https://docs.oracle.com/javase/tutorial/essential/environment/index.html)
 
 ## [动态代理]()
+
+## [编码和解码](./charset)

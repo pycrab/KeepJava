@@ -40,8 +40,6 @@ next: vcs/git
 
 ## 加密算法
 
-## [编码和解码](charset/encode)
-
 ## 服务器
 
 ### Linux命令
