@@ -6,7 +6,7 @@ meta:
     content: Java IO
 tags: ['Java IO']
 prev: ../collection/
-next: ../thread/
+next: ../concurrency/
 ---
 
 ## [IO 模型](./io-model)

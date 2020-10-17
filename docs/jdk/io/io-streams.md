@@ -119,6 +119,10 @@ try (final FileWriter writer = new FileWriter("test.txt", StandardCharsets.UTF_8
 }
 ```
 
+#### 网络流
+
+网络流用于网络通信。
+
 #### 管道流
 
 PipedOutputStream 类、PipedInputStream 类和 PipedWriter 类、PipedReader 类提供线程之间的通信，输入流和输出流一定成对出现，并且需要 connect() 连接。
@@ -250,6 +254,21 @@ PushbackInputStream 类和 PushbackReader 类。可以将读到（read）的数�
 
 使用 [适配器设计模式](../../idea/patterns/adapter-mode)，改变原始类的行为，这些流有：
 
+#### 转换流
+
+根据指定字符集将字节流解码为字符流和将字符流编码为字节流的类：InputStreamReader 和 OutputStreamWriter。
+
+```java
+try (final InputStreamReader reader = new InputStreamReader(new FileInputStream("test.txt"), StandardCharsets.UTF_8)) {
+    int read;
+    while ((read = reader.read()) != -1) {
+        System.out.print(Character.toString(read));
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
 #### Zip 流
 
 ![Zip 流继承图.png](https://pycrab.github.io/KeepJava/assets/media/jdk-io-streams-zip.png)
@@ -284,21 +303,6 @@ try (final ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutp
     final Task object = (Task) inputStream.readObject();
     System.out.println(object.toString());
 } catch (ClassNotFoundException | IOException e) {
-    e.printStackTrace();
-}
-```
-
-#### 转换流
-
-根据指定字符集将字节流转换为字符流的类：InputStreamReader 和 OutputStreamWriter。
-
-```java
-try (final InputStreamReader reader = new InputStreamReader(new FileInputStream("test.txt"), StandardCharsets.UTF_8)) {
-    int read;
-    while ((read = reader.read()) != -1) {
-        System.out.print(Character.toString(read));
-    }
-} catch (IOException e) {
     e.printStackTrace();
 }
 ```
@@ -373,6 +377,4 @@ try (inputStream) {
 Closeable 接口的 close() 方法可以执行多次，对已经关闭的资源是没有影响的，它是幂等的；而它的父类 AutoCloseable 接口的 close() 方法不是幂等的，多次执行可能产生副作用，所以要求实现 AutoCloseable 接口的类自己实现幂等。
 
 :::
-
-## 网络流
 
