@@ -43,7 +43,7 @@ themeConfig:
       {text: Java 泛型, link: /jdk/generics/},
       {text: Java 集合, link: /jdk/collection/},
       {text: Java IO, link: /jdk/io/},
-      {text: Java 线程, link: /jdk/thread/},
+      {text: Java 并发编程, link: /jdk/concurrency/},
       {text: Java 额外技能, link: /jdk/skill/}
     ]}
     - {text: Java EE, items: [
