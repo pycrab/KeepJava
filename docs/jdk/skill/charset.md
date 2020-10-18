@@ -5,7 +5,7 @@ meta:
   - name: keywords
     content: 编码，解码，字符集，乱码，ASCII码，ISO-8859-1，GB2312，GBK，GB18030，UTF-16，UTF-8，Unicode统一码，Base64
 tags: ['编码和解码', '乱码', '字符集']
-prev: ../
+prev: ./
 next: 
 ---
 
