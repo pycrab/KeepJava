@@ -5,7 +5,7 @@ meta:
   - name: keywords
     content: JDK 7 特性解读，Java 概念图
 tags: ['JDK 7 特性解读',  'Java 概念图']
-prev: ../introduction/
+prev: ./
 next: ./jdk8
 ---
 
