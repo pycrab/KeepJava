@@ -35,11 +35,11 @@ next: ../generics/
 
 ​		Java 使用 **throw** 和 **throws** 关键字来抛出异常。
 
-​		throw 可抛出的对象必须是 Throwable 类及其字类的实例，通常我们的简单程序中不会去捕获或者抛出 Error 类型的异常，大多数程序都是抛出并捕获 Exception 类型的异常。如果抛出的是已检查的异常，需要在方法声明中使用 throws 关键字声明抛出该异常。示例：
+​		throw 可抛出的对象必须是 Throwable 类及其字类的实例，通常我们的简单程序中不会去捕获或者抛出 Error 类型的异常，大多数程序都是抛出并捕获 Exception 类型的异常。如果抛出的是已检查的异常，需要捕获处理，或者不处理但在方法声明中使用 throws 关键字声明抛出该异常。示例：
 
 ```java
 public void test() throws Exception {
-    throw new RuntimeException();
+    throw new IOException();
 }
 ```
 

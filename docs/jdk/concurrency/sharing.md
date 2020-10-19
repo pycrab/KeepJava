@@ -51,7 +51,7 @@ JDK 5 之前 java.util 包中的大部分集合类都是非线程安全的，JDK
 | Hashtable  | ConcurrentHashMap    |
 | Set        | CopyOnWriteArraySet  |
 
-此外 JDK 6 新增了 支持近似匹配的 ConcurrentNavigableMap 类等。
+并发安全集合类参考 [Java 集合 - 并发安全](../collection/)
 
 ## 并发随机数
 

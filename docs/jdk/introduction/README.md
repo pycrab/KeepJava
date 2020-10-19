@@ -219,7 +219,7 @@ System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length);
 在 java.util.Arrays 类中有很多操作数组的方法，比如：
 
 - 二分搜索 binarySearch
-- 数组比较一同 equals
+- 数组比较异同 equals
 - 数组填充 fill
 - 数组排序 sort（JDK 8 添加 parallelSort，在多处理器系统上并行排序大数组更快）
 

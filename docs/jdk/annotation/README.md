@@ -37,12 +37,12 @@ next: ../exceptions/
   - ElementType.*PACKAGE*，可以作用于包上
   - ElementType.*PARAMETER*，可以作用于方法形式参数上
   - ElementType.*TYPE*，可以作用于类、接口、注解、枚举的声明上
-  - ElementType.*TYPE_PARAMETER，*（JDK 8引入）可以作用于类型参数上
-  - ElementType.*TYPE_USE，*（JDK 8引入）作用于类型的使用上
+  - ElementType.*TYPE_PARAMETER，*（JDK 8 引入）可以作用于类型参数上
+  - ElementType.*TYPE_USE，*（JDK 8 引入）作用于类型的使用上
 
-- **@Inherited**，该注解只用于类声明（@Target(ElementType.*METHOD*)），表示注解可以从父类继承。当程序查找不到该注解时，会去该类的父类继续查找该注解。
+- **@Inherited**，该注解只用于父类声明上，表示字类可以从父类继承并使用该注解，且只能标注于类上。
 
-- **@Repeatable**，（JDK 8 引入）表示该注解可以在一处使用多次。
+- **@Repeatable**，（JDK 8 引入）声明该注解可以在一处使用多次。
 
 ## 预定义注解
 

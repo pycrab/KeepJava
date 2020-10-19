@@ -29,7 +29,7 @@ for (int i = 0; i < array2.length; ++i) {
     System.out.print(array2[i]);
 }
 
-// 增强 for -each 循环
+// 增强 for- each 循环
 for (int i : array2) {
     System.out.print(i);
 }
@@ -288,7 +288,7 @@ private static int hugeLength(int oldLength, int minGrowth) {
 
 - 初始化时直接根据元素个数大小分配数组
 - 新增元素，不够用时才扩容，扩容根据初始化方式有所不同：
-  - 如果初始化没指定容量，扩充为 10 ，目标大小超过 10 则扩充为目标大小
+  - 如果是没初始化容量的空列表，扩充为 10 ，目标大小超过 10 则扩充为目标大小
   - 否则扩充为当前数组大小的 1.5 倍，目标大小超过 1.5 倍则扩充为目标大小
 
 :::
@@ -512,7 +512,7 @@ HashSet(int initialCapacity, float loadFactor, boolean dummy) {
 
 内部使用 LinkedHashMap 实现的有序集合。
 
-此类的迭代时间不受容量影响；由于添加同样的元素不会改变它原有的顺序，常用于将含重复元素的集合去重并保持原来的顺序，通过构造器 `LinkedHashSet(Collection<? extends E> c)`，相比 TreeSet 更轻量。
+此类的迭代时间不受容量影响；由于添加同样的元素不会改变它原有的顺序，常用于通过构造器 `LinkedHashSet(Collection<? extends E> c)` 将含重复元素的集合去重并保持原来的顺序，相比 TreeSet 更轻量。
 
 #### TreeSet
 
@@ -522,9 +522,9 @@ HashSet(int initialCapacity, float loadFactor, boolean dummy) {
 
 JDK 5 新增的专门用于枚举类型的枚举集合。可以通过集合操作处理枚举值。它提供的方法如下：
 
-- `allOf(Class<E> elementType)`
-- `noneOf(Class<E> elementType)`
-- `EnumSet<E> copyOf(EnumSet<E> s)`、`copyOf(Collection<E> c)`、`EnumSet<E> of(E e)`、`range(E from, E to)`
+- 返回该枚举类所有枚举值的集合 `allOf(Class<E> elementType)`
+- 返回该枚举类的空集合 `noneOf(Class<E> elementType)`
+- 返回该枚举类部分枚举值的集合 `EnumSet<E> copyOf(EnumSet<E> s)`、`copyOf(Collection<E> c)`、`EnumSet<E> of(E e)`、`range(E from, E to)`
 - 补集 `complementOf(EnumSet<E> s)`
 
 它内部使用位向量实现，非常紧凑和高效，具有极好的时空性能，几乎所有操作都在固定时间内运行。
@@ -963,7 +963,9 @@ public class Main {
 
 ## Collections 类
 
-以上集合除了 Vector、Hashtable、Properties 都是非线程安全的，如果需要并发处理，则需要 Collecitons 类提供的同步包装方法：
+Collections 类提供了静态方法对集合进行操作，或者通过包装返回新集合。
+
+以上集合除了 Vector、Hashtable、Properties 都是非线程安全的，如果需要并发处理，则需要 Collecitons 类提供的同步包装方法，使用如下包装方法返回的集合进行迭代器或 Stream 遍历时需要手动使用 synchronized 同步块包裹：
 
 - `synchronizedList(List<T> list)`
 - `synchronizedSet(Set<T> s)`、`synchronizedSortedSet(SortedSet<T> s)`、`synchronizedNavigableSet(NavigableSet<T> s)`
@@ -988,3 +990,23 @@ Collections 类还提供了很多实用方法：
 - 替换全部元素 `fill(List<? super T> list, T obj)`
 - 集合复制 `copy(List<? super T> dest, List<? extends T> src)`
 - 返回最值 `min(Collection<? extends T> coll)`、`max(Collection<? extends T> coll)`
+
+## 并发安全
+
+使用 Collections 类提供的方法对不安全的集合进行包装需要手动进行同步，为了避免同步 JDK 5 增加了如下并发集合类：
+
+### CopyOnWriteArrayList
+
+替代 ArrayList 的并发安全的列表。
+
+### CopyOnWriteArraySet
+
+底层使用 CopyOnWriteArrayList 进行所有操作的并发安全的集合。
+
+### ConcurrentHashMap
+
+和 Hashtable 类似的并发安全的哈希表。
+
+### ConcurrentSkipListMap <badge>JDK 6</badge>
+
+基于 SkipLists 的变体实现的可按顺序排列的并发安全的哈希表。

@@ -38,8 +38,6 @@ next: vcs/git
 
 > - [Docker]()
 
-## 加密算法
-
 ## 服务器
 
 ### Linux命令
