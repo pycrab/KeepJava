@@ -9,7 +9,11 @@ prev:
 next: vcs/git
 ---
 
-## Windows 使用技巧
+## Windows
+
+> 
+
+## Linux
 
 > 
 
@@ -27,21 +31,19 @@ next: vcs/git
 
 ## 项目构建工具
 
-> - [Maven]()
+> - [Maven](./build/maven)
 > - [Gradle]()
 
 ## 持续集成工具（CI / CD）
 
 > - [Jenkins]()
 
-## 容器化
+## 服务器
+
+> - [Tomcat](./server/tomcat)
+> - Nginx
+
+## 容器
 
 > - [Docker]()
 
-## 服务器
-
-### Linux命令
-
-### Tomcat
-
-### Nginx
