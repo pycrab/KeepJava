@@ -210,6 +210,8 @@ Git 命令及其参数可以通过命令行来查看，查询所有命令手册 
   
   # 跳过暂存区，直接将工作区中的文件提交到本地仓库
   git commit -a -m "message"
+  
+  # --author="username <mail>" 可以指定提交作者信息
   ```
 
 ### 远程仓库
@@ -256,7 +258,7 @@ Git 命令及其参数可以通过命令行来查看，查询所有命令手册 
 
   ```shell
   # 抓取最新代码
-  git fetch <remote-name> <remote-branch>
+  git fetch <remote-name> <remote-branch>:<local-branch>
   
   # 拉取并合并最新代码
   git pull <remote-name> <remote-branch>:<local-branch>
@@ -370,14 +372,17 @@ git tag -a v1.0 -m "标签信息"
   # 查看所有分支，包括远程分支
   git branch -a
   
-  # 查看分支及最后依次提交记录
+  # 查看本地分支及其最后一次提交记录
   git branch -v
+  
+  # 查看本地分支及跟踪分支，以及和跟踪分支的差距（落后 behind，领先 ahead），运行此命令需要先 `git fetch --all` 来抓取所有远程仓库
+  git branch -vv
   ```
 
 - **创建分支**
 
   ```shell
-  # 创建分支，默认指向最新提交
+  # 创建分支（但不切换当前分支），默认指向最新提交
   git branch <branch-name>
   ```
 
@@ -392,6 +397,14 @@ git tag -a v1.0 -m "标签信息"
   
   # 创建/重置并切换分支
   git checkout -B <branch-name>
+  
+  # 切换分支并绑定远程分支，默认会绑定远程同名分支，这里可以指定本地分支别名
+  git checkout <branch-name> <remote-name>/<remote-branch-name>
+  
+  # 修改当前分支绑定的远程分支
+  git branch -u <remote-name>/<remote-branch-name>
+  # 或者
+  git branch --set-upstream-to=<remote-name>/<remote-branch-name>
   ```
 
 - **删除分支**
@@ -403,12 +416,45 @@ git tag -a v1.0 -m "标签信息"
   # 删除远程分支
   git push origin --delete <branch-name>
   ```
+  
+- **合并分支**
+
+  ```bash
+  # 切换到要合并的分支 dev
+  git checkout dev
+  
+  # 将 dev 合并到 master 分支
+  git merge master
+  ```
 
 ### 整合分支
 
-当在多个分支进行提交，那么就产生了分叉，我们需要进行合并或者变基操作使得提交拥有一个祖先。
+当我们克隆远程仓库并开发后，当前分支树上会有两个标识，一个 branchName 表示本地当前分支所指向提交，如 master；一个 remoteName / branchName 表示远程分支所指向的提交，如 origin/master。
 
-通过 [Git 分支—变基](https://git-scm.com/book/en/v2/Git-Branching-Rebasing) 这篇文章可以详细了解如何整合分支。
+当在多个开发分支上进行提交，那么在仓库主分支上就产生了分叉，我们需要进行合并或者变基操作使得主分支提交不分叉。
+
+- **合并 merge**
+
+  - 如果开发分支 dev 的直接祖先正好是 master 分支指向的提交，那么可以进行快速合并（master 分支和 dev 分支都指向最新提交）
+  - 如果开发分支 dev 的直接祖先不是 master 分支指向的提交，即产生了分叉，那么 merge 合并命令会将 dev 分支的提交以及分支共同直接祖先进行三方自动合并，然后生成一个新的快照并提交，同时 master 分支和 dev 分支都指向最新提交
+  - 如果分叉处修改了同一个文件产生了冲突，那么 Git 无法完全执行默认的自动合并，Git 会暂停等待用户手动决定如何合并冲突的文件，合并完后需要将合并的文件保存到暂存区，这时 Git 会标识冲突已解决，并产生一条新的提交记录进行提交
+
+- **变基 rebase**
+
+  rebase 变基命令 `git rebase master` 会以指定分支 master 作为基础，将当前分支与共同祖先的提交对比，提取当前分支的修改保存为临时文件，然后根据临时文件创建一次提交指向指定基础分支 master 上。
+
+  - `git rebase master dev` 在master 分支上将 dev 分支变基到 master 上
+  - `git rebase --onto master feature1 feature2` 在 master 分支上将 feature2 有但 feature1 没有的提交变基到 master 上
+
+  执行变基后，master 分支往往会落后 dev，需要执行一次 `git merge dev` 进行快速合并。
+
+::: danger 警告
+
+变基会将并行的开发提交记录转变为串行的提交记录，使得提交记录更简洁。
+
+只对提交到本地的修改进行变基，不要对推送到远程的提交进行变基！！！
+
+:::
 
 ### 分支开发工作流
 
@@ -419,97 +465,141 @@ git tag -a v1.0 -m "标签信息"
 
 这里仅列出经常使用的工具命令，更多工具请参考 [Git 工具](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%80%89%E6%8B%A9%E4%BF%AE%E8%AE%A2%E7%89%88%E6%9C%AC) 原文。
 
-- **凭证存储**
+### 凭证存储
 
-  如果使用 SSH 连接远程仓库，则可以安全传输数据；但是如果使用 HTTP 协议来传输，则需要每次都输入账号和密码。我们可以选择存储 HTTP 凭证：
+如果使用 SSH 连接远程仓库，则可以安全传输数据，配置密钥登录步骤：
 
-  - 存储在内存中，15分钟过期 `git config --global credential.helper cache`
-  - 明文存储在硬盘中，永不过期 `git config --global credential.helper store`
+- 本机生成密钥 `ssh-keygen -t rsa -C "mail@qq.com"`，默认会保存在用户目录下的 `~/.ssh` 目录中
+- 复制 ssh 目录下的公钥 `id_rsa_pub` 中的内容配置到 Git 远程仓库中
 
-  ::: warning 常见问题
+如果本地已经存在密钥，而我们需要给项目单独生成密钥，则需要以下步骤：
 
-  有时候我们修改了远程 Git 仓库的账号密码，本地仓库进行推拉操作时会提示连接被拒绝 `connection refused` 或者拒绝访问 `Access Denied`，这时需要清空一下本地存储的凭证信息 `git config --global --unset credential.helper`
+- 本机生成密钥 `ssh-keygen -t rsa -C "mail@qq.com`，但是注意在交互时第一步要指定保存该密钥的文件夹，比如 `~/.ssh/github/`，防止覆盖本机已有密钥
 
-  :::
+- 在 `.ssh` 目录下新建 config 文件 `touch config` （如果不存在），并写入配置：
 
-- **临时保存文件**
-
-  ```shell
-  # 保存所有的文件
-  git stash
+  ```bash
+  # 本地仓库配置的远程仓库域名（git remote）
+  Host github.com
   
-  # 取出最后一次保存的文件
-  git stash pop
+  	# 远程仓库域名
+  	HostName github.com
+  
+  	# 指定远程端口，默认 22
+  	Port 22
+  
+  	# 指定 git 提交时使用该配置
+  	User git
+  
+  	# 指定密钥目录
+  	IdentityFile ~/.ssh/github
+  
+  	# 
+  	IdentitiesOnly yes
   ```
 
-- **重写历史**
+但是如果使用 HTTP 协议来传输，则需要每次都输入账号和密码。我们可以选择存储 HTTP 凭证：
 
-  ```shell
-  # 修补提交，比如刚提交完，需要修改提交信息或者将漏提交的补上，流程如下：
-  git commit -m "not complete"
-  git add last
-  git commit --amend [--no-edit]
-  
-  # 修改最新三条提交信息 / 排序提交历史 / 合并提交
-  git rebase -i HEAD~3
-  
-  # 远程仓库合并提交（容易挨打，轻易不要使用）
-  git rebase -i head~5 --root
-  ```
+- 存储在内存中，15分钟过期 `git config --global credential.helper cache`
+- 明文存储在硬盘中，永不过期 `git config --global credential.helper store`
 
-- **版本回退**
+::: warning 常见问题
 
-  ```shell
-  # 回退到某个提交
-  git reset --hard commit_id
-  ```
+有时候我们修改了远程 Git 仓库的账号密码，本地仓库进行推拉操作时会提示连接被拒绝 `connection refused` 或者拒绝访问 `Access Denied`，这时需要清空一下本地存储的凭证信息
 
-- **撤销更改**
+`git config --global --unset credential.helper`
 
-  ```shell
-  # 对已跟踪但是未放到暂存区的文件，撤销更改
-  git restore a.txt
-  
-  # 将暂存区的文件，移到工作区，撤销暂存状态
-  git restore -S a.txt 或者 git restore --staged a.txt
-  
-  # 将暂存区的文件，移到工作区，撤销暂存状态
-  git reset head a.txt
-  
-  # 撤销对一个文件的全部修改，重置到上次提交的样子
-  git checkout -- a.txt
-  
-  # 撤销本地仓库全部文件更改
-  git fetch --all
-  git reset --hard origin/master
-  ```
+:::
 
-- **删除命令**
+### 临时保存文件
 
-  ```shell
-  # -r 表示递归文件夹
-  
-  # 重命名已跟踪的文件
-  git mv a.txt b.txt
-  # 以上重命名相当于以下三个操作
-  mv a.txt b.txt
-  git rm a.txt
-  git add b.txt
-  
-  # 如果删除的是已 commit 提交过的文件，都可以通过 restore 命令恢复；
-  # 如果删除的是未提交过
-  ## 如果在暂存区中
-  ### 使用 --cached 参数可以恢复到工作区
-  git rm [-r] --cached a.txt
-  
-  ### 使用 -f 参数会永久删除，不可恢复
-  git rm [-r] -f a.txt
-  ## 如果已跟踪并且在工作区中，即状态为 AM，这时候就没办法了，只能 -f 永久删除，因为恢复会冲突，没有其它操作了
-  
-  # 以上删除相当于以下两个命令
-  rm [-f][-r] a.txt
-  git add a.txt
-  ```
+```shell
+# 保存所有的文件（非保存到暂存区，不影响切换分支等操作）
+git stash
+
+# 取出最后一次保存的文件
+git stash pop
+```
+
+### 修改提交
+
+```shell
+# 修补提交，比如刚提交完，需要修改提交信息或者将漏提交的补上，流程如下：
+git commit -m "not complete"
+git add last
+git commit --amend [--no-edit]
+
+# 修改最近一次提交作者信息
+git commit --amend --author="username <email>"
+
+# 修改最新三条提交信息(edit 模式交互式，配合 git commit --amend 可以修改作者信息) / 排序提交历史（:m+n） / 合并提交(f 模式)
+git rebase -i HEAD~3
+
+# 远程仓库合并提交（容易挨打，轻易不要使用）
+git rebase -i head~5 --root
+```
+
+### 版本回退
+
+```shell
+# 本地分支回退到某个提交
+git reset --hard commit_id
+```
+
+### 撤销更改
+
+```shell
+# 对已跟踪但是未放到暂存区的文件，撤销更改
+git restore a.txt
+
+# 将暂存区的文件，移到工作区，撤销暂存状态
+git restore -S a.txt 或者 git restore --staged a.txt
+
+# 将暂存区的文件，移到工作区，撤销暂存状态
+git reset head a.txt
+
+# 撤销对一个文件的全部修改，重置到上次提交的样子
+git checkout -- a.txt
+
+# 撤销本地仓库全部文件更改
+git fetch --all
+git reset --hard origin/master
+```
+
+### 删除文件
+
+```shell
+# -r 表示递归文件夹
+
+# 重命名已跟踪的文件
+git mv a.txt b.txt
+# 以上重命名相当于以下三个操作
+mv a.txt b.txt
+git rm a.txt
+git add b.txt
+
+# 如果删除的是已 commit 提交过的文件，都可以通过 restore 命令恢复；
+# 如果删除的是未提交过
+## 如果在暂存区中
+### 使用 --cached 参数可以恢复到工作区
+git rm [-r] --cached a.txt
+
+### 使用 -f 参数会永久删除，不可恢复
+git rm [-r] -f a.txt
+## 如果已跟踪并且在工作区中，即状态为 AM，这时候就没办法了，只能 -f 永久删除，因为恢复会冲突，没有其它操作了
+
+# 以上删除相当于以下两个命令
+rm [-f][-r] a.txt
+git add a.txt
+```
+
+## Git 工作流程
+
+- 在 Git 代码仓库托管平台注册账户
+- 组长分配仓库权限
+- 拉取仓库代码，可以配置 SSH 或者设置本地保存 HTTP 凭据
+- 配置仓库提交用户信息
+- 分支开发工作流
 
 ## 本文小结
 
