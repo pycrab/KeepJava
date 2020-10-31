@@ -53,7 +53,12 @@ themeConfig:
         {text: Spring MVC, link: /}
       ]}
     ]}
-    - {text: 数据库, link: /}
+    - {text: 数据库, items: [
+      {text: 关系型, items: []},
+      {text: 非关系型（NoSQL）, items: [
+        {text: MongoDB, link: /db/mongo/}
+      ]}
+    ]}
     - {text: 分布式, link: /}
     - {text: 中间件, link: /}
     - {text: 解决方案, link: /solution/}
