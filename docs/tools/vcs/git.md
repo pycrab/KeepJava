@@ -593,11 +593,73 @@ rm [-f][-r] a.txt
 git add a.txt
 ```
 
+### 子模块
+
+[官方文档](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97) Git 子模块允许将一个 Git 仓库作为另一个 Git 仓库的子目录，同时还保持各仓库独立提交。使用子模块会创建一个 .gitmodules 文件，该文件会受版本控制需要提交，同时会根据 .gitmodules 创建一个以子模块命名的目录，该目录不受版本控制。
+
+**子模块添加与移除**
+
+```bash
+# 在工作目录添加子模块，然后提交
+git submodule add remote-url
+
+# 在工作目录移除子模块，然后提交
+git rm -rf 子模块目录名
+```
+
+**在主项目上工作**
+
+主项目默认跟踪子模块的 maser 分支，也可以指定分支，比如指定 DbConnector 子模块的分支为 stable 并提交子模块配置文件：
+
+`git config -f .gitmodules submodule.DbConnector.branch stable`，如果只在本地使用，不推送到远程，则不用  `-f .gitmodules` 选项
+
+```shell
+# 直接将项目及嵌套子模块全部克隆，同时会初始化子模块目录
+git clone --recursive remote-url
+
+# 初始化以子模块命名的空目录
+git submodule init
+
+# 抓取当前项目最新数据并初始化子模块目录（如果还没克隆则直接将子模块克隆到本地）
+git submodule update
+
+# 如果远程新增了子模块，本地需要初始化新子模块的目录，使用 --recursive 选项进行递归嵌套子模块
+ git submodule update --init
+ 
+# 如果别人修改了子模块，需要拉取子模块最新代码（或者进入子模块目录手动拉取最新代码）
+git submodule update --remote
+
+# 如果远程修改了子模块的 URL 地址，这会导致本地更新子模块失败，需要更新配置
+git submodule sync --recursive
+```
+
+::: warning 提示
+
+使用 `git pull` 命令仅仅是拉取了最新更新，但是主项目并不采用子模块的最新更新，需要使用 `git submodule update` 来更新对子模块的引用
+
+- 可以使用 `git pull --recurse-submodules` 合并两个命令
+- 也可以配置 `git pull` 默认更新子模块 `git config submodule.recurse true`
+
+配置 `git config status.submodulesummary 1` 可以直接在主项目中查看子模块的更新摘要 status
+
+使用 `git log -p --submodule` 可以查看子模块更新摘要
+
+:::
+
+**批量操作 foreach**
+
+```shell
+# 保存所有子模块进度
+git submodule foreach 'git stash'
+# 所有子模块新建分支并切换
+git submodule foreach 'git checkout -b featureA'
+```
+
 ## Git 工作流程
 
 - 在 Git 代码仓库托管平台注册账户
-- 组长分配仓库权限
-- 拉取仓库代码，可以配置 SSH 或者设置本地保存 HTTP 凭据
+- 组长分配仓库权限便可看到项目，或者自己创建项目
+- 拉取项目仓库代码，可以配置 SSH 或者设置本地保存 HTTP 凭据
 - 配置仓库提交用户信息
 - 分支开发工作流
 
