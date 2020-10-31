@@ -54,8 +54,11 @@ themeConfig:
       ]}
     ]}
     - {text: 数据库, items: [
-      {text: 关系型, items: []},
-      {text: 非关系型（NoSQL）, items: [
+#      {text: 关系型, items: [
+#        {text: MySQL, link: /db/mysql/},
+#        {text: Oracle, link: /db/oracle/}
+#      ]},
+      {text: 非关系型 (NoSQL), items: [
         {text: MongoDB, link: /db/mongo/}
       ]}
     ]}
