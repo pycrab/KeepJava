@@ -369,6 +369,9 @@ git tag -a v1.0 -m "标签信息"
   # 查看本地分支，* 号代表 HEAD 当前指向的分支
   git branch
   
+  # 查看远程分支
+  git branch -r
+  
   # 查看所有分支，包括远程分支
   git branch -a
   
