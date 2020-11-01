@@ -26,11 +26,11 @@ next:
 
 ## IDE 开发工具
 
-> - [IDEA]()
+> - [IntelliJ IDEA](ide/idea)
 
 ## 项目构建工具
 
-> - [Maven](./build/maven)
+> - [Maven](build/maven)
 > - [Gradle]()
 
 ## 持续集成工具（CI / CD）

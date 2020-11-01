@@ -5,7 +5,7 @@ meta:
   - name: keywords
     content: Windows 使用，重装 Windows 系统
 tags: ['Windows']
-prev: ./
+prev: ../
 next: ./linux
 
 
