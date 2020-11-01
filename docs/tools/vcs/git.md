@@ -415,6 +415,9 @@ git tag -a v1.0 -m "标签信息"
   
   # 删除远程分支
   git push origin --delete <branch-name>
+  
+  # 远程分支删除但是 git branch -r 还是能够看见以前的远程分支，需要更新下分支关联引用
+  git remote prune remote-name
   ```
   
 - **合并分支**
