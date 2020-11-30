@@ -105,6 +105,7 @@ next: ./linux
 - [网易云音乐](https://music.163.com/#/download)
 - [Foxmail 邮箱客户端](https://www.foxmail.com)
 - [企业微信](https://work.weixin.qq.com/#indexDownload)
+- [钉钉](https://m.dingtalk.com/)
 - [Typora 编辑器](https://www.typora.io)
 - 爱奇艺万能播放器，应用商店下载（PS 的轻量替代品，查看各种类型图片）
 
@@ -176,4 +177,4 @@ Win 10 系统的锁屏界面设置为 Windows 聚焦后，联网就能自动更�
 - 右键管理员打开记事本，依次找到 `C:\Windows\System32\drivers\etc\hosts` host 文件并打开，在文件最后加上一行 `140.82.114.4 github.com`，其中 IP 为你查询到的最新 IP
 - 保存，如果提示另存为或者只有只读权限，去 C 盘找到该 hosts 文件，右键属性去掉只读的对勾
 - 命令行 cmd 运行 `ipconfig /flushdns` 刷新 IP 缓存，ok，可以看看效果（还得看网速）
-
+- 还是花一顿饭钱，买个加速器吧。
