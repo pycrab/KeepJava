@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Java 并发编程 | KeepJava</title>
+    <meta name="generator" content="VuePress 1.5.4">
+    
+    <meta name="description" content="Java 并发编程">
+    <meta name="keywords" content="Java 并发编程">
+    <link rel="preload" href="/KeepJava/assets/css/0.styles.0321c629.css" as="style"><link rel="preload" href="/KeepJava/assets/js/app.95e4ac80.js" as="script"><link rel="preload" href="/KeepJava/assets/js/2.73d6ef14.js" as="script"><link rel="preload" href="/KeepJava/assets/js/19.a3be88a3.js" as="script"><link rel="prefetch" href="/KeepJava/assets/js/10.f77a3b1c.js"><link rel="prefetch" href="/KeepJava/assets/js/11.f2c39f13.js"><link rel="prefetch" href="/KeepJava/assets/js/12.7295ba16.js"><link rel="prefetch" href="/KeepJava/assets/js/13.cc733961.js"><link rel="prefetch" href="/KeepJava/assets/js/14.c0a99400.js"><link rel="prefetch" href="/KeepJava/assets/js/15.e38b5c52.js"><link rel="prefetch" href="/KeepJava/assets/js/16.8118b0f3.js"><link rel="prefetch" href="/KeepJava/assets/js/17.8a8fe6dc.js"><link rel="prefetch" href="/KeepJava/assets/js/18.6432444b.js"><link rel="prefetch" href="/KeepJava/assets/js/20.c5e50ea4.js"><link rel="prefetch" href="/KeepJava/assets/js/21.964f1dfe.js"><link rel="prefetch" href="/KeepJava/assets/js/22.0dcbf95f.js"><link rel="prefetch" href="/KeepJava/assets/js/23.ced2e82f.js"><link rel="prefetch" href="/KeepJava/assets/js/24.6351a6c5.js"><link rel="prefetch" href="/KeepJava/assets/js/25.3cc78923.js"><link rel="prefetch" href="/KeepJava/assets/js/26.87ab7653.js"><link rel="prefetch" href="/KeepJava/assets/js/27.ebe07d00.js"><link rel="prefetch" href="/KeepJava/assets/js/28.e32b4030.js"><link rel="prefetch" href="/KeepJava/assets/js/29.a39dc7ab.js"><link rel="prefetch" href="/KeepJava/assets/js/3.596aa5f2.js"><link rel="prefetch" href="/KeepJava/assets/js/30.a7ef1e11.js"><link rel="prefetch" href="/KeepJava/assets/js/31.386e222b.js"><link rel="prefetch" href="/KeepJava/assets/js/32.85324444.js"><link rel="prefetch" href="/KeepJava/assets/js/33.1775ff36.js"><link rel="prefetch" href="/KeepJava/assets/js/34.e9f2b7c9.js"><link rel="prefetch" href="/KeepJava/assets/js/35.4b7e161f.js"><link rel="prefetch" href="/KeepJava/assets/js/36.39e8eff2.js"><link rel="prefetch" href="/KeepJava/assets/js/37.90259285.js"><link rel="prefetch" href="/KeepJava/assets/js/38.d838dba8.js"><link rel="prefetch" href="/KeepJava/assets/js/39.aab402f0.js"><link rel="prefetch" href="/KeepJava/assets/js/4.a6f55f5d.js"><link rel="prefetch" href="/KeepJava/assets/js/40.1e1951fb.js"><link rel="prefetch" href="/KeepJava/assets/js/41.b994974d.js"><link rel="prefetch" href="/KeepJava/assets/js/42.77236de4.js"><link rel="prefetch" href="/KeepJava/assets/js/43.f1cd7a56.js"><link rel="prefetch" href="/KeepJava/assets/js/44.b9cf68c3.js"><link rel="prefetch" href="/KeepJava/assets/js/45.d949d581.js"><link rel="prefetch" href="/KeepJava/assets/js/46.3306095e.js"><link rel="prefetch" href="/KeepJava/assets/js/47.1c08e86c.js"><link rel="prefetch" href="/KeepJava/assets/js/48.8c0802c7.js"><link rel="prefetch" href="/KeepJava/assets/js/49.b513c38f.js"><link rel="prefetch" href="/KeepJava/assets/js/5.be33ac2d.js"><link rel="prefetch" href="/KeepJava/assets/js/50.a91e4a91.js"><link rel="prefetch" href="/KeepJava/assets/js/51.94807067.js"><link rel="prefetch" href="/KeepJava/assets/js/52.55860f57.js"><link rel="prefetch" href="/KeepJava/assets/js/53.65662d2d.js"><link rel="prefetch" href="/KeepJava/assets/js/6.c9a4e2e1.js"><link rel="prefetch" href="/KeepJava/assets/js/7.6d22e957.js"><link rel="prefetch" href="/KeepJava/assets/js/8.4b0668c3.js"><link rel="prefetch" href="/KeepJava/assets/js/9.c098ded9.js">
+    <link rel="stylesheet" href="/KeepJava/assets/css/0.styles.0321c629.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/KeepJava/" class="home-link router-link-active"><img src="/KeepJava/assets/logo/java.svg" alt="KeepJava" class="logo"> <span class="site-name can-hide">KeepJava</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Java 并发编程</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/KeepJava/jdk/concurrency/#进程和线程" class="sidebar-link">进程和线程</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/#线程基础" class="sidebar-link">线程基础</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/#线程安全" class="sidebar-link">线程安全</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/KeepJava/jdk/concurrency/#同步和锁" class="sidebar-link">同步和锁</a></li><li class="sidebar-sub-header"><a href="/KeepJava/jdk/concurrency/#cas-aqs" class="sidebar-link">CAS &amp; AQS</a></li><li class="sidebar-sub-header"><a href="/KeepJava/jdk/concurrency/#活跃性问题" class="sidebar-link">活跃性问题</a></li><li class="sidebar-sub-header"><a href="/KeepJava/jdk/concurrency/#对象共享" class="sidebar-link">对象共享</a></li></ul></li><li><a href="/KeepJava/jdk/concurrency/#线程协调" class="sidebar-link">线程协调</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/#线程管理" class="sidebar-link">线程管理</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><div class="custom-block tip"><p class="custom-block-title">致敬</p> <p>学习 Java 并发编程首先要认识一下 Doug Lea，在源码阅读过程中，我们经常会看到一个作者的名字 <code>@author Doug Lea</code>，他编写的 java.util.concurrent 包在 Java 1.5 版本中引入，促进了 Java 的历史变革。</p></div> <h2 id="进程和线程"><a href="#进程和线程" class="header-anchor">🎋</a> 进程和线程</h2> <details class="custom-block details"><summary>进程和线程、并行和并发的概念</summary> <p>进程和线程的区别：在并发编程中，进程和线程是两个基本的执行单元。进程是 CPU 分配资源的基本单位，线程是 CPU 调度的基本单位。进程享有独立的内存空间，进程的多个线程共享该进程的资源、内存和打开的文件，这有利于线程之间的通信，但是可能会出问题。线程是轻量版的进程，创建一个线程要比创建一个进程需要更少的资源。获得资源的线程获取到时间片后即可被 CPU 调度执行，线程执行则其进程当然在执行。</p> <p>并发和并行的区别：不管是多个处理器（多 CPU ）还是多个执行核心（多核），都可能实现程序并发执行，这主要依靠操作系统的调度。比如使用最广的时间片轮转调度算法，每个线程被分配一个时间片，当线程时间片使用完或者线程在时间片结束前阻塞或执行完毕，CPU 将保存该线程的状态并切换下一个线程执行。时间片往往设置地很短（毫秒），所以在一段时间内有多个线程执行（并发），而在一个时刻只有一个线程执行（并行）。</p></details> <h2 id="线程基础"><a href="#线程基础" class="header-anchor">🎋</a> <a href="./thread">线程基础</a></h2> <blockquote><p>介绍 Thread 类的基本属性和方法，及如何创建一个线程并启动。</p></blockquote> <h2 id="线程安全"><a href="#线程安全" class="header-anchor">🎋</a> 线程安全</h2> <p>如果一个类设计成多线程可以正确访问，那么这个类就是<strong>线程安全</strong>的（thread - safe），否则就是<strong>线程不安全</strong>的（unsafe）。</p> <p>由于一个进程内的线程共享进程的内存地址空间，这些线程都能访问共享变量及引用对象。而线程作为 CPU 调度的基本单位，运行时多个线程可能会交替执行，这样有可能产生<strong>线程干扰</strong>和<strong>内存一致性</strong>错误。</p> <details class="custom-block details"><summary>线程干扰的产生</summary> <p>示例一个计数器，一个线程加 100 次，一个线程减 100 次，最后结果却不一定是0。因为自增和自减不是原子性操作，它们实际执行三个步骤：先读取，进行加一/减一，再写入。由于 CPU 不确定的调度，两个线程可能在这三个步骤之间交叉执行，比如：</p> <p>1、线程 1 读取（count = 0）</p> <p>2、线程 1 加一（count = 1）</p> <p>3、线程 2 得到 CPU 调度，线程 1 保存上下文暂停</p> <p>4、线程 2 读取（count = 0）</p> <p>5、线程 2 减一（count = -1）</p> <p>6、线程 2 写入（count = -1）</p> <p>7、线程 1 得到 CPU 调度，线程 2 保存上下文暂停</p> <p>8、线程 1 写入（count = 1）</p> <p>由于线程 2 的干扰导致这次执行结果本来应该是 0 但是却是 1。示例代码如下：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+        <span class="token keyword">private</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            count<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">decrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            count<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token class-name">Counter</span> counter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                counter<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// 为演示效果设置暂停一会</span>
+                    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                counter<span class="token punctuation">.</span><span class="token function">decrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// main 线程等待异步线程执行完</span>
+            <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        counter<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br></div></div></details> <details class="custom-block details"><summary>内存一致性错误的产生</summary> <p>假设线程 1 加一，由 main 线程读取 count 的值，但是因为 CPU 的调度，main 线程可能先于 线程 1 执行读取，导致和预想的不一致，这就产生了内存一致性错误。</p> <p>导致内存一致性错误的原因很多，我们只需要知道避免产生内存一致性错误的关键是了解<strong>happens - before 关系</strong>（事前发生），事前发生关系就是指先发生的事件对于后发生的事件是可见的。</p> <p>我们已知的当前线程调用 <code>join()</code> 方法时，join 之前的事件和当前线程 join 中的事件就构成了 happens - before 关系，或者说 join 中的事件 <strong>happens before</strong> join 之前的事件。</p></details> <h3 id="同步和锁"><a href="#同步和锁" class="header-anchor">🎋</a> <a href="./lock">同步和锁</a></h3> <blockquote><p>在串行编程模型中，单个线程顺序执行是不会产生错误的，但是多个线程并发执行可能会引入非串行因素导致错误。</p> <p>对于共享变量，只要通过同步进行协调，保证一个线程执行完访问，另一个线程才能访问，这样就能避免线程干扰。</p></blockquote> <h3 id="cas-aqs"><a href="#cas-aqs" class="header-anchor">🎋</a> <a href="./CAS-AQS">CAS &amp; AQS</a></h3> <blockquote></blockquote> <h3 id="活跃性问题"><a href="#活跃性问题" class="header-anchor">🎋</a> <a href="./liveness">活跃性问题</a></h3> <blockquote><p>多个线程访问共享资源，会进行竞争获取锁，那么就会产生活跃性问题，比如线程饥饿、活锁、死锁等。</p></blockquote> <h3 id="对象共享"><a href="#对象共享" class="header-anchor">🎋</a> <a href="./sharing">对象共享</a></h3> <blockquote><p>不是所有的操作都必须要同步，有些情况下多线程可以共享访问。</p></blockquote> <h2 id="线程协调"><a href="#线程协调" class="header-anchor">🎋</a> <a href="./thread-coordinate">线程协调</a></h2> <blockquote><p>当两个或多个线程之间需要合作时，就需要进行协调。最常见的协调就是守卫块，即一个线程通过轮询某个含有独占对象的条件，不成立时就释放锁等待，当条件成立时重新获取锁执行。如果不释放锁，那么线程一直占有锁，条件永远不会成立。</p></blockquote> <h2 id="线程管理"><a href="#线程管理" class="header-anchor">🎋</a> <a href="./thread-manage">线程管理</a></h2> <blockquote><p>通过对任务和线程执行的一步步带入，引出线程执行器的概念，进而学习线程池的具体类库。</p></blockquote> <hr> <div class="custom-block danger"><p class="custom-block-title">参考文献</p> <ul><li>首先通过 <a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472" target="_blank" rel="noopener noreferrer">廖雪峰的 Java 教程<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 对 Java 并发编程类库有个简单认识</li> <li>结合 Oracle 官方 Java 教程 <a href="https://docs.oracle.com/javase/tutorial/essential/concurrency/index.html" target="_blank" rel="noopener noreferrer">Java 并发章节<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 以及源码注释深入学习 Java 并发编程</li> <li>通过《Java 并发编程实战》（Java Concurrency in Practice）这本书详细理解一些概念</li> <li><a href="https://docs.oracle.com/javase/specs/index.html" target="_blank" rel="noopener noreferrer">Java 语言和虚拟机规范<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 官方下载链接</li></ul></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/pycrab/KeepJava/edit/master/jdk/concurrency/README.md" target="_blank" rel="noopener noreferrer">Edit Me On Github</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2020/12/3 下午3:48:31</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/KeepJava/jdk/io/" class="prev">
+        Java IO
+      </a></span> <span class="next"><a href="/KeepJava/jdk/skill/">
+        Java 额外技能
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/KeepJava/assets/js/app.95e4ac80.js" defer></script><script src="/KeepJava/assets/js/2.73d6ef14.js" defer></script><script src="/KeepJava/assets/js/19.a3be88a3.js" defer></script>
+  </body>
+</html>

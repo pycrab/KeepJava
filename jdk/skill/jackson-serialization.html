@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Jackson 反序列化驼峰问题 | KeepJava</title>
+    <meta name="generator" content="VuePress 1.5.4">
+    
+    <meta name="description" content="Jackson 反序列化驼峰问题">
+    <meta name="keywords" content="Jackson 反序列化驼峰问题，Jackson，序列化与反序列化">
+    <link rel="preload" href="/KeepJava/assets/css/0.styles.0321c629.css" as="style"><link rel="preload" href="/KeepJava/assets/js/app.95e4ac80.js" as="script"><link rel="preload" href="/KeepJava/assets/js/2.73d6ef14.js" as="script"><link rel="preload" href="/KeepJava/assets/js/40.1e1951fb.js" as="script"><link rel="prefetch" href="/KeepJava/assets/js/10.f77a3b1c.js"><link rel="prefetch" href="/KeepJava/assets/js/11.f2c39f13.js"><link rel="prefetch" href="/KeepJava/assets/js/12.7295ba16.js"><link rel="prefetch" href="/KeepJava/assets/js/13.cc733961.js"><link rel="prefetch" href="/KeepJava/assets/js/14.c0a99400.js"><link rel="prefetch" href="/KeepJava/assets/js/15.e38b5c52.js"><link rel="prefetch" href="/KeepJava/assets/js/16.8118b0f3.js"><link rel="prefetch" href="/KeepJava/assets/js/17.8a8fe6dc.js"><link rel="prefetch" href="/KeepJava/assets/js/18.6432444b.js"><link rel="prefetch" href="/KeepJava/assets/js/19.a3be88a3.js"><link rel="prefetch" href="/KeepJava/assets/js/20.c5e50ea4.js"><link rel="prefetch" href="/KeepJava/assets/js/21.964f1dfe.js"><link rel="prefetch" href="/KeepJava/assets/js/22.0dcbf95f.js"><link rel="prefetch" href="/KeepJava/assets/js/23.ced2e82f.js"><link rel="prefetch" href="/KeepJava/assets/js/24.6351a6c5.js"><link rel="prefetch" href="/KeepJava/assets/js/25.3cc78923.js"><link rel="prefetch" href="/KeepJava/assets/js/26.87ab7653.js"><link rel="prefetch" href="/KeepJava/assets/js/27.ebe07d00.js"><link rel="prefetch" href="/KeepJava/assets/js/28.e32b4030.js"><link rel="prefetch" href="/KeepJava/assets/js/29.a39dc7ab.js"><link rel="prefetch" href="/KeepJava/assets/js/3.596aa5f2.js"><link rel="prefetch" href="/KeepJava/assets/js/30.a7ef1e11.js"><link rel="prefetch" href="/KeepJava/assets/js/31.386e222b.js"><link rel="prefetch" href="/KeepJava/assets/js/32.85324444.js"><link rel="prefetch" href="/KeepJava/assets/js/33.1775ff36.js"><link rel="prefetch" href="/KeepJava/assets/js/34.e9f2b7c9.js"><link rel="prefetch" href="/KeepJava/assets/js/35.4b7e161f.js"><link rel="prefetch" href="/KeepJava/assets/js/36.39e8eff2.js"><link rel="prefetch" href="/KeepJava/assets/js/37.90259285.js"><link rel="prefetch" href="/KeepJava/assets/js/38.d838dba8.js"><link rel="prefetch" href="/KeepJava/assets/js/39.aab402f0.js"><link rel="prefetch" href="/KeepJava/assets/js/4.a6f55f5d.js"><link rel="prefetch" href="/KeepJava/assets/js/41.b994974d.js"><link rel="prefetch" href="/KeepJava/assets/js/42.77236de4.js"><link rel="prefetch" href="/KeepJava/assets/js/43.f1cd7a56.js"><link rel="prefetch" href="/KeepJava/assets/js/44.b9cf68c3.js"><link rel="prefetch" href="/KeepJava/assets/js/45.d949d581.js"><link rel="prefetch" href="/KeepJava/assets/js/46.3306095e.js"><link rel="prefetch" href="/KeepJava/assets/js/47.1c08e86c.js"><link rel="prefetch" href="/KeepJava/assets/js/48.8c0802c7.js"><link rel="prefetch" href="/KeepJava/assets/js/49.b513c38f.js"><link rel="prefetch" href="/KeepJava/assets/js/5.be33ac2d.js"><link rel="prefetch" href="/KeepJava/assets/js/50.a91e4a91.js"><link rel="prefetch" href="/KeepJava/assets/js/51.94807067.js"><link rel="prefetch" href="/KeepJava/assets/js/52.55860f57.js"><link rel="prefetch" href="/KeepJava/assets/js/53.65662d2d.js"><link rel="prefetch" href="/KeepJava/assets/js/6.c9a4e2e1.js"><link rel="prefetch" href="/KeepJava/assets/js/7.6d22e957.js"><link rel="prefetch" href="/KeepJava/assets/js/8.4b0668c3.js"><link rel="prefetch" href="/KeepJava/assets/js/9.c098ded9.js">
+    <link rel="stylesheet" href="/KeepJava/assets/css/0.styles.0321c629.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/KeepJava/" class="home-link router-link-active"><img src="/KeepJava/assets/logo/java.svg" alt="KeepJava" class="logo"> <span class="site-name can-hide">KeepJava</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link router-link-active">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link router-link-active">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Jackson 反序列化驼峰问题</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/KeepJava/jdk/skill/jackson-serialization.html#案例由来" class="sidebar-link">案例由来</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/skill/jackson-serialization.html#debug" class="sidebar-link">DEBUG</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/skill/jackson-serialization.html#结论" class="sidebar-link">结论</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="案例由来"><a href="#案例由来" class="header-anchor">🎋</a> 案例由来</h2> <p>​		最简单的增删改查功能，前端人员调试接口发现插入成功，但是关联查询查不出来，我立马去试了一下，确实查不出来。看看数据表中的记录，相关字段确实为空；表字段设计是经典的驼峰格式 column_id，s_column_id；实体类属性为驼峰格式 sColumnId；第一反应是项目 MyBatis 有没有开启驼峰命名转换，看了眼xml配置，已经开启了 <code>mybatis.configuration.map-underscore-to-camel-case: true</code> 驼峰转换。</p> <h2 id="debug"><a href="#debug" class="header-anchor">🎋</a> DEBUG</h2> <p>​		POST 请求，前端传的 sColumnId，实体类就是接收不到。开启DEBUG分析，看到 column_id 是有值的，但是 s_column_id为 null 。为什么 s_column_id 没有接收到呢？难道两个下划线不能转换为正确的驼峰吗？我倒要看看哪里处理的，虽然不太会 DEBUG 源码，那就一层层进去！请容我慢慢道来。</p> <p>​		首先，接口接收到的值已经是 null 了，说明是 Spring MVC 已经将请求参数匹配到实体对象的属性了，所以我先在接口上打个断点：</p> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-skill-jackson-debug1.png" alt="1.png"></p> <p>​		可以看到请求已经经过层层过滤进入接口这里，但是我们要的不是这个，点击上图右下角的箭头，展开所有类库，这么多咱也看不懂，大概意思就是经历了线程启动、经过一层层的过滤器、然后到了 MVC 处理请求，到 MVC 这里就是有 Servlet 和 request 的地方了，我们点击左边的方法，右边会出现使用到的变量：</p> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-skill-jackson-debug2.png" alt="2.png"></p> <p>​		从上往下依次点击，发现在 invokeForRequest 时有个 args 参数，展开发现里面正是我们的实体对象：</p> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-skill-jackson-debug3.png" alt="3.png"></p> <p>​		继续往下点击，发现 invokeAndHandle 这里，右边没有这个 args 参数，参数就是从这里做了映射赋值，鼠标定位在 invokeAndHandle 这里，我们在程序定位的代码上打个断点，等下从这里进入：</p> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-skill-jackson-debug4.png" alt="4.png"></p> <p>​		首先点击左边这个正常结束程序的按钮（或者按 F9），然后重新 call 接口，进入断点后，点击右边常用的 DEBUG 操作中第二个按钮进入断点处的方法（或者按 F7），然后点击左边的步进（或者按 F8）一行行朝下走，遇到可疑方法就 F7 进入，发现运行过程中提到了 MappingJackson2HttpMessageConverter，继续往下走，遇到了 _valueDeserializer 参数反序列化器，展开右边的变量 _valueDeserializer，有个 _beanProperties，继续展开，找到了 _hashArea，发现里面正是我们的对象属性：</p> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-skill-jackson-debug5.png" alt="5.png"></p> <p>​		但是看到我们的属性是 scolumnId，也就是在这里没有驼峰，所有继续往下走是不会正确赋值的，也就是说，使用 Jackson 反序列化的时候变成了这样，究竟为啥反序列化没有驼峰，我没有继续探究，但是解决办法已经有了。</p> <h2 id="结论"><a href="#结论" class="header-anchor">🎋</a> 结论</h2> <p>​		使用 Jackson 在反序列化时有些属性名称是会变的，Jackson 提供了很多注解可以操作反序列化时的属性，我们可以在该属性上添加<code>@JsonProperty(value = &quot;sColumnId&quot;)</code>来指定反序列化后的名称，或者前端在传参数时就约定传 scolumnId 就好了。</p> <p>​		通过此次找寻问题，我也学到了 DEBUG 源码的方法，虽然里面的代码逻辑没有弄清楚，但是也是入门了，对于 Jackson 反序列化驼峰有问题，以后有时间再去继续 DEBUG 吧😃！</p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/pycrab/KeepJava/edit/master/jdk/skill/jackson-serialization.md" target="_blank" rel="noopener noreferrer">Edit Me On Github</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2020/12/3 下午3:48:31</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/KeepJava/jdk/skill/serialization.html" class="prev">
+        序列化和反序列化
+      </a></span> <!----></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/KeepJava/assets/js/app.95e4ac80.js" defer></script><script src="/KeepJava/assets/js/2.73d6ef14.js" defer></script><script src="/KeepJava/assets/js/40.1e1951fb.js" defer></script>
+  </body>
+</html>

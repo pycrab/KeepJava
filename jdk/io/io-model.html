@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>UNIX IO 模型 | KeepJava</title>
+    <meta name="generator" content="VuePress 1.5.4">
+    
+    <meta name="description" content="UNIX IO 模型">
+    <meta name="keywords" content="UNIX IO 模型，Java IO，BIO 阻塞 IO，NIO 非阻塞 IO，IO 多路复用，事件驱动 IO，信号启动 IO，异步IO">
+    <link rel="preload" href="/KeepJava/assets/css/0.styles.0321c629.css" as="style"><link rel="preload" href="/KeepJava/assets/js/app.95e4ac80.js" as="script"><link rel="preload" href="/KeepJava/assets/js/2.73d6ef14.js" as="script"><link rel="preload" href="/KeepJava/assets/js/32.85324444.js" as="script"><link rel="prefetch" href="/KeepJava/assets/js/10.f77a3b1c.js"><link rel="prefetch" href="/KeepJava/assets/js/11.f2c39f13.js"><link rel="prefetch" href="/KeepJava/assets/js/12.7295ba16.js"><link rel="prefetch" href="/KeepJava/assets/js/13.cc733961.js"><link rel="prefetch" href="/KeepJava/assets/js/14.c0a99400.js"><link rel="prefetch" href="/KeepJava/assets/js/15.e38b5c52.js"><link rel="prefetch" href="/KeepJava/assets/js/16.8118b0f3.js"><link rel="prefetch" href="/KeepJava/assets/js/17.8a8fe6dc.js"><link rel="prefetch" href="/KeepJava/assets/js/18.6432444b.js"><link rel="prefetch" href="/KeepJava/assets/js/19.a3be88a3.js"><link rel="prefetch" href="/KeepJava/assets/js/20.c5e50ea4.js"><link rel="prefetch" href="/KeepJava/assets/js/21.964f1dfe.js"><link rel="prefetch" href="/KeepJava/assets/js/22.0dcbf95f.js"><link rel="prefetch" href="/KeepJava/assets/js/23.ced2e82f.js"><link rel="prefetch" href="/KeepJava/assets/js/24.6351a6c5.js"><link rel="prefetch" href="/KeepJava/assets/js/25.3cc78923.js"><link rel="prefetch" href="/KeepJava/assets/js/26.87ab7653.js"><link rel="prefetch" href="/KeepJava/assets/js/27.ebe07d00.js"><link rel="prefetch" href="/KeepJava/assets/js/28.e32b4030.js"><link rel="prefetch" href="/KeepJava/assets/js/29.a39dc7ab.js"><link rel="prefetch" href="/KeepJava/assets/js/3.596aa5f2.js"><link rel="prefetch" href="/KeepJava/assets/js/30.a7ef1e11.js"><link rel="prefetch" href="/KeepJava/assets/js/31.386e222b.js"><link rel="prefetch" href="/KeepJava/assets/js/33.1775ff36.js"><link rel="prefetch" href="/KeepJava/assets/js/34.e9f2b7c9.js"><link rel="prefetch" href="/KeepJava/assets/js/35.4b7e161f.js"><link rel="prefetch" href="/KeepJava/assets/js/36.39e8eff2.js"><link rel="prefetch" href="/KeepJava/assets/js/37.90259285.js"><link rel="prefetch" href="/KeepJava/assets/js/38.d838dba8.js"><link rel="prefetch" href="/KeepJava/assets/js/39.aab402f0.js"><link rel="prefetch" href="/KeepJava/assets/js/4.a6f55f5d.js"><link rel="prefetch" href="/KeepJava/assets/js/40.1e1951fb.js"><link rel="prefetch" href="/KeepJava/assets/js/41.b994974d.js"><link rel="prefetch" href="/KeepJava/assets/js/42.77236de4.js"><link rel="prefetch" href="/KeepJava/assets/js/43.f1cd7a56.js"><link rel="prefetch" href="/KeepJava/assets/js/44.b9cf68c3.js"><link rel="prefetch" href="/KeepJava/assets/js/45.d949d581.js"><link rel="prefetch" href="/KeepJava/assets/js/46.3306095e.js"><link rel="prefetch" href="/KeepJava/assets/js/47.1c08e86c.js"><link rel="prefetch" href="/KeepJava/assets/js/48.8c0802c7.js"><link rel="prefetch" href="/KeepJava/assets/js/49.b513c38f.js"><link rel="prefetch" href="/KeepJava/assets/js/5.be33ac2d.js"><link rel="prefetch" href="/KeepJava/assets/js/50.a91e4a91.js"><link rel="prefetch" href="/KeepJava/assets/js/51.94807067.js"><link rel="prefetch" href="/KeepJava/assets/js/52.55860f57.js"><link rel="prefetch" href="/KeepJava/assets/js/53.65662d2d.js"><link rel="prefetch" href="/KeepJava/assets/js/6.c9a4e2e1.js"><link rel="prefetch" href="/KeepJava/assets/js/7.6d22e957.js"><link rel="prefetch" href="/KeepJava/assets/js/8.4b0668c3.js"><link rel="prefetch" href="/KeepJava/assets/js/9.c098ded9.js">
+    <link rel="stylesheet" href="/KeepJava/assets/css/0.styles.0321c629.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/KeepJava/" class="home-link router-link-active"><img src="/KeepJava/assets/logo/java.svg" alt="KeepJava" class="logo"> <span class="site-name can-hide">KeepJava</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link router-link-active">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link router-link-active">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>UNIX IO 模型</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/KeepJava/jdk/io/io-model.html#bio-阻塞-io" class="sidebar-link">BIO : 阻塞 IO</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/io/io-model.html#nio-非阻塞-io" class="sidebar-link">NIO : 非阻塞 IO</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/io/io-model.html#io-多路复用" class="sidebar-link">IO 多路复用</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/io/io-model.html#信号驱动-io" class="sidebar-link">信号驱动 IO</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/io/io-model.html#aio-异步-io" class="sidebar-link">AIO : 异步 IO</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/io/io-model.html#对比" class="sidebar-link">对比</a><ul class="sidebar-sub-headers"></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>绝大多数 IO 操作都涉及数据在内核空间和用户空间之间的拷贝，这个过程是由操作系统底层调用来完成。</p> <div class="custom-block tip"><p class="custom-block-title">同步与异步，阻塞与非阻塞</p> <p>传统的 IO 读操作主要分为两步：1、发起 read() 请求直到操作系统内核准备好数据；2、数据从内核空间拷贝到用户空间。</p> <p>同步与异步指的是第一步数据准备好后，第二步读操作是同步还是异步。</p> <p>阻塞与非阻塞指的是执行 IO 的线程发起读请求操作后，当前线程继续执行其它操作还是阻塞等待返回。</p></div> <p>据此操作系统实现了以下五种 IO 模型：</p> <h2 id="bio-阻塞-io"><a href="#bio-阻塞-io" class="header-anchor">🎋</a> BIO : 阻塞 IO</h2> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-io-model1.png" alt="阻塞 IO 模型.png"></p> <p>阻塞 IO 模型指的是，应用进程发起 recvfrom 系统调用后，在数据准备阶段和数据拷贝阶段都是阻塞的。</p> <h2 id="nio-非阻塞-io"><a href="#nio-非阻塞-io" class="header-anchor">🎋</a> NIO : 非阻塞 IO</h2> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-io-model2.png" alt="非阻塞 IO 模型.png"></p> <p>非阻塞 IO 模型指的是，应用进程发起 recvfrom 系统调用后，内核会立即返回 EWOULDBLOCK，之后应用进程会不断轮询调用 recvfrom，直到状态不为 EWOULDBLOCK 之后，表示数据已经准备好了，然后进行数据拷贝，此阶段数据拷贝仍是阻塞的。</p> <h2 id="io-多路复用"><a href="#io-多路复用" class="header-anchor">🎋</a> IO 多路复用</h2> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-io-model3.png" alt="IO 多路复用模型.png"></p> <p>多路复用模型指的是，应用进程首先发起 select/poll/epoll 系统调用，将请求注册到一个单独线程中，由这个线程去轮询内核是否准备好数据，准备好之后回调应用进程，应用进程发起 recvfrom 系统调用来进行数据拷贝。该模型轮询的线程和数据拷贝阶段是阻塞的（epoll 系统调用通过事件驱动的方式而不是轮询来判断数据是否准备好，性能更高）。</p> <h2 id="信号驱动-io"><a href="#信号驱动-io" class="header-anchor">🎋</a> 信号驱动 IO</h2> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-io-model4.png" alt="信号驱动 IO 模型.png"></p> <p>信号驱动 IO 模型指的是，应用进程首先发起 sigaction 系统调用注册一个信号处理函数，当数据准备好后会生成一个信号通知应用进程发起 recvfrom 调用拷贝数据，拷贝数据阶段应用进程仍是阻塞的。</p> <h2 id="aio-异步-io"><a href="#aio-异步-io" class="header-anchor">🎋</a> AIO : 异步 IO</h2> <p><img src="https://pycrab.github.io/KeepJava/assets/media/jdk-io-model5.png" alt="异步 IO 模型.png"></p> <p>异步 IO 模型真正实现了异步非阻塞，应用进程告知内核启动一个操作，内核准备好数据后自动进行数据拷贝，拷贝完成后通知应用进程。</p> <h2 id="对比"><a href="#对比" class="header-anchor">🎋</a> 对比</h2> <blockquote><p>前四种 IO 模型都是同步的，因为在从内核空间拷贝数据到用户空间的过程中应用进程都是阻塞的，只有异步 IO 模型是异步非阻塞的。</p></blockquote> <blockquote><p>IO 多路复用类似于非阻塞 IO，只是新启动了一个线程去轮询，解放了应用线程，适用于处理大量线程连接。</p></blockquote> <blockquote><p>信号驱动 IO 模型是告知应用进程数据已经准备好了，异步 IO 模型是告知应用进程数据已经拷贝完成了。</p></blockquote> <div class="custom-block danger"><p class="custom-block-title">参考文献</p> <ul><li><p>《Netty 权威指南》这本书真心不错，推荐阅读。本文图片来源此书。</p></li> <li><p>知乎 Wang Young’s Hub <a href="https://zhuanlan.zhihu.com/p/161357177" target="_blank" rel="noopener noreferrer">IO模型和基于事件驱动的IO多路复用模式<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></li></ul></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/pycrab/KeepJava/edit/master/jdk/io/io-model.md" target="_blank" rel="noopener noreferrer">Edit Me On Github</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2020/12/3 下午3:48:31</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/KeepJava/jdk/io/" class="prev router-link-active">
+        Java IO
+      </a></span> <span class="next"><a href="/KeepJava/jdk/io/file-copy.html">
+        文件拷贝的几种方式
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/KeepJava/assets/js/app.95e4ac80.js" defer></script><script src="/KeepJava/assets/js/2.73d6ef14.js" defer></script><script src="/KeepJava/assets/js/32.85324444.js" defer></script>
+  </body>
+</html>

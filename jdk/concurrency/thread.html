@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Java 线程基础 | KeepJava</title>
+    <meta name="generator" content="VuePress 1.5.4">
+    
+    <meta name="description" content="Java 线程基础">
+    <meta name="keywords" content="Java 线程基础">
+    <link rel="preload" href="/KeepJava/assets/css/0.styles.0321c629.css" as="style"><link rel="preload" href="/KeepJava/assets/js/app.95e4ac80.js" as="script"><link rel="preload" href="/KeepJava/assets/js/2.73d6ef14.js" as="script"><link rel="preload" href="/KeepJava/assets/js/25.3cc78923.js" as="script"><link rel="prefetch" href="/KeepJava/assets/js/10.f77a3b1c.js"><link rel="prefetch" href="/KeepJava/assets/js/11.f2c39f13.js"><link rel="prefetch" href="/KeepJava/assets/js/12.7295ba16.js"><link rel="prefetch" href="/KeepJava/assets/js/13.cc733961.js"><link rel="prefetch" href="/KeepJava/assets/js/14.c0a99400.js"><link rel="prefetch" href="/KeepJava/assets/js/15.e38b5c52.js"><link rel="prefetch" href="/KeepJava/assets/js/16.8118b0f3.js"><link rel="prefetch" href="/KeepJava/assets/js/17.8a8fe6dc.js"><link rel="prefetch" href="/KeepJava/assets/js/18.6432444b.js"><link rel="prefetch" href="/KeepJava/assets/js/19.a3be88a3.js"><link rel="prefetch" href="/KeepJava/assets/js/20.c5e50ea4.js"><link rel="prefetch" href="/KeepJava/assets/js/21.964f1dfe.js"><link rel="prefetch" href="/KeepJava/assets/js/22.0dcbf95f.js"><link rel="prefetch" href="/KeepJava/assets/js/23.ced2e82f.js"><link rel="prefetch" href="/KeepJava/assets/js/24.6351a6c5.js"><link rel="prefetch" href="/KeepJava/assets/js/26.87ab7653.js"><link rel="prefetch" href="/KeepJava/assets/js/27.ebe07d00.js"><link rel="prefetch" href="/KeepJava/assets/js/28.e32b4030.js"><link rel="prefetch" href="/KeepJava/assets/js/29.a39dc7ab.js"><link rel="prefetch" href="/KeepJava/assets/js/3.596aa5f2.js"><link rel="prefetch" href="/KeepJava/assets/js/30.a7ef1e11.js"><link rel="prefetch" href="/KeepJava/assets/js/31.386e222b.js"><link rel="prefetch" href="/KeepJava/assets/js/32.85324444.js"><link rel="prefetch" href="/KeepJava/assets/js/33.1775ff36.js"><link rel="prefetch" href="/KeepJava/assets/js/34.e9f2b7c9.js"><link rel="prefetch" href="/KeepJava/assets/js/35.4b7e161f.js"><link rel="prefetch" href="/KeepJava/assets/js/36.39e8eff2.js"><link rel="prefetch" href="/KeepJava/assets/js/37.90259285.js"><link rel="prefetch" href="/KeepJava/assets/js/38.d838dba8.js"><link rel="prefetch" href="/KeepJava/assets/js/39.aab402f0.js"><link rel="prefetch" href="/KeepJava/assets/js/4.a6f55f5d.js"><link rel="prefetch" href="/KeepJava/assets/js/40.1e1951fb.js"><link rel="prefetch" href="/KeepJava/assets/js/41.b994974d.js"><link rel="prefetch" href="/KeepJava/assets/js/42.77236de4.js"><link rel="prefetch" href="/KeepJava/assets/js/43.f1cd7a56.js"><link rel="prefetch" href="/KeepJava/assets/js/44.b9cf68c3.js"><link rel="prefetch" href="/KeepJava/assets/js/45.d949d581.js"><link rel="prefetch" href="/KeepJava/assets/js/46.3306095e.js"><link rel="prefetch" href="/KeepJava/assets/js/47.1c08e86c.js"><link rel="prefetch" href="/KeepJava/assets/js/48.8c0802c7.js"><link rel="prefetch" href="/KeepJava/assets/js/49.b513c38f.js"><link rel="prefetch" href="/KeepJava/assets/js/5.be33ac2d.js"><link rel="prefetch" href="/KeepJava/assets/js/50.a91e4a91.js"><link rel="prefetch" href="/KeepJava/assets/js/51.94807067.js"><link rel="prefetch" href="/KeepJava/assets/js/52.55860f57.js"><link rel="prefetch" href="/KeepJava/assets/js/53.65662d2d.js"><link rel="prefetch" href="/KeepJava/assets/js/6.c9a4e2e1.js"><link rel="prefetch" href="/KeepJava/assets/js/7.6d22e957.js"><link rel="prefetch" href="/KeepJava/assets/js/8.4b0668c3.js"><link rel="prefetch" href="/KeepJava/assets/js/9.c098ded9.js">
+    <link rel="stylesheet" href="/KeepJava/assets/css/0.styles.0321c629.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/KeepJava/" class="home-link router-link-active"><img src="/KeepJava/assets/logo/java.svg" alt="KeepJava" class="logo"> <span class="site-name can-hide">KeepJava</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link router-link-active">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/KeepJava/guide/" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java SE" class="dropdown-title"><span class="title">Java SE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java SE" class="mobile-dropdown-title"><span class="title">Java SE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/introduction/" class="nav-link">
+  Java 语言基础
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/version/" class="nav-link">
+  Java 发展简史
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/object/" class="nav-link">
+  面向对象编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/reflection/" class="nav-link">
+  Java 反射
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/annotation/" class="nav-link">
+  Java 注解
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/exceptions/" class="nav-link">
+  Java 异常
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/generics/" class="nav-link">
+  Java 泛型
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/collection/" class="nav-link">
+  Java 集合
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/io/" class="nav-link">
+  Java IO
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/concurrency/" class="nav-link router-link-active">
+  Java 并发编程
+</a></li><li class="dropdown-item"><!----> <a href="/KeepJava/jdk/skill/" class="nav-link">
+  Java 额外技能
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java EE" class="dropdown-title"><span class="title">Java EE</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java EE" class="mobile-dropdown-title"><span class="title">Java EE</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          框架
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring Boot
+</a></li><li class="dropdown-subitem"><a href="/KeepJava/" class="nav-link">
+  Spring MVC
+</a></li></ul></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><h4>
+          非关系型 (NoSQL)
+        </h4> <ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/KeepJava/db/mongo/" class="nav-link">
+  MongoDB
+</a></li></ul></li></ul></div></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  分布式
+</a></div><div class="nav-item"><a href="/KeepJava/" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/KeepJava/solution/" class="nav-link">
+  解决方案
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="思想|概念" class="dropdown-title"><span class="title">思想|概念</span> <span class="arrow down"></span></button> <button type="button" aria-label="思想|概念" class="mobile-dropdown-title"><span class="title">思想|概念</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/KeepJava/idea/patterns/" class="nav-link">
+  设计模式
+</a></li></ul></div></div><div class="nav-item"><a href="/KeepJava/tools/" class="nav-link">
+  工具|技能
+</a></div> <a href="https://github.com/pycrab" target="_blank" rel="noopener noreferrer" class="repo-link">
+    Github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>Java 线程基础</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/KeepJava/jdk/concurrency/thread.html#线程属性" class="sidebar-link">线程属性</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/thread.html#线程状态" class="sidebar-link">线程状态</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/thread.html#线程方法" class="sidebar-link">线程方法</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/KeepJava/jdk/concurrency/thread.html#线程创建和任务执行" class="sidebar-link">线程创建和任务执行</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/KeepJava/jdk/concurrency/thread.html#线程工厂创建" class="sidebar-link">线程工厂创建</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p><strong>Java 中每个线程对象都是 Thread 类的实例</strong>。下面通过阅读 java.lang.Thread 类的源码来学习下线程基础。源码注释写的非常清楚，不得不感谢开发人员的严谨认真。</p> <h2 id="线程属性"><a href="#线程属性" class="header-anchor">🎋</a> 线程属性</h2> <ul><li><p><strong>name 线程名称（volatile）</strong></p> <ul><li><code>setName(String)</code>，建议设置线程名，设置线程名时，不能为 null，否则会报 NPE 异常。匿名线程会根据创建顺序默认名称为 <code>Thread-顺序号</code> 。</li> <li><code>getName()</code></li></ul></li> <li><p><strong>id 线程 id（final）</strong></p> <ul><li><code>getId()</code>，创建线程时分配的 id 不可修改，线程终止时可再分配给其他线程。</li></ul></li> <li><p><strong>priority 线程优先级</strong></p> <ul><li><code>setPriority(int)</code></li> <li><code>getPriority()</code>，线程优先级 1-10，默认是 5。创建线程默认继承当前线程的优先级；线程优先级决定线程调度器优先调度哪个线程执行的概率，但是不同的 OS 线程规划不一样，有的甚至会忽略该设置；设置优先级有可能会导致有的线程一直无法执行，从而导致饥饿。</li></ul></li> <li><p><strong>threadStatus 线程状态（volatile）</strong></p> <ul><li><code>getState()</code> 方法返回当前线程的状态，用来监视系统状态。</li></ul></li> <li><p><strong>interrupted 是否中断（volatile）</strong></p> <ul><li><code>isInterrupted()</code> 方法测试线程是否已被中断，该方法并不影响线程中断状态。</li></ul></li> <li><p><strong>daemon 是否是守护线程</strong></p></li> <li><p><code>setDaemon(boolean)</code>，设置守护线程要在线程启动之前，否则线程存活会抛异常 IllegalThreadStateException。</p> <ul><li><code>isDaemon()</code>，线程分为用户线程和守护线程，用户线程为主线程，守护线程为用户线程提供服务。JVM 启动时会启动一个 main 线程，main 线程又可以启动其它线程，如 gc 等守护线程；当只剩下守护线程时，JVM 会退出，此时守护线程不一定正常结束，所以守护线程不要持有资源，否则无法关闭。<strong>创建线程默认会继承当前线程是守护线程还是用户线程</strong>。</li></ul></li> <li><p><strong>group 线程组</strong></p> <ul><li><code>getThreadGroup()</code>，返回线程所属的线程组，如果线程死亡返回 null。</li></ul></li> <li><p><strong>defaultUncaughtExceptionHandler 默认异常处理器（static volatile）</strong></p> <ul><li><code>getDefaultUncaughtExceptionHandler()</code></li> <li><code>setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh)</code>，如果线程和线程组都没有设置异常处理器，则调用默认的处理器（不设置默认 null）。</li></ul></li> <li><p><strong>uncaughtExceptionHandler 异常处理器（volatile）</strong></p> <ul><li><code>getUncaughtExceptionHandler()</code></li> <li><code>setUncaughtExceptionHandler(UncaughtExceptionHandler eh)</code>，由于线程 <code>run()</code> 方法不会抛出异常，当出现异常时，首先会由线程设置的 uncaughtExceptionHandler 处理器来处理（未设置默认 null），如果没有则由线程组来处理，还没有则由线程默认处理器处理。</li></ul></li></ul> <h2 id="线程状态"><a href="#线程状态" class="header-anchor">🎋</a> 线程状态</h2> <p>Thread 类中的内部枚举类 State 定义了五种线程状态：</p> <ul><li><code>NEW</code>，线程已创建但未启动执行，默认此时 threadStatus 为 0</li> <li><code>RUNNABLE</code>，JVM 正在执行线程的 <code>run()</code> 方法，但是线程有可能在等待操作系统资源</li> <li><code>BLOCKED</code>，线程被阻塞，正在等待其它线程执行</li> <li><code>WAITING</code>，线程执行中由于以下三种情况等待被其他线程唤醒或者其他线程结束：
+<ul><li>Object.wait()</li> <li>Thread.join()</li> <li>LockSupport.park()</li></ul></li> <li><code>TIMED_WAITING</code>，具有指定时间的等待状态的线程，触发方式：
+<ul><li>Thread.sleep(long)</li> <li>Object.wait(long)</li> <li>Thread.join(long)</li> <li>LockSupport.parkNanos()</li> <li>LockSupport.parkUntil()</li></ul></li> <li><code>TERMINATED</code>，线程执行完 <code>run()</code> 方法正常终止或 <code>run()</code> 方法抛出异常意外终止</li></ul> <p>如果线程在 <code>TERMINATED</code> 状态或者线程被中断，那么就说线程死亡了，否则线程还活着。可以通过 <code>isAlive()</code> 方法判断。</p> <blockquote><p>TODO：操作系统中线程状态的切换</p></blockquote> <h2 id="线程方法"><a href="#线程方法" class="header-anchor">🎋</a> 线程方法</h2> <ul><li><p><code>start()</code>，启动一个线程交由 JVM 执行，调用该方法后新创建的线程开始执行 run 方法，当前线程继续执行 <code>start()</code> 方法后面的事情。</p></li> <li><p><code>join( )</code> / <code>join(long millis)</code> / <code>join(long millis, int nanos)</code>，暂停主线程优先执行该线程，直到该线程死亡（结束或者被中断）或时间到。</p></li> <li><p><code>interrupt()</code>，主线程将当前线程的中断标志置为 true。当前线程可以通过 <code>isInterrupted()</code> 方法判断是否已中断并终止当前操作。</p> <p>中断相当于一个信号，告知当前线程需要终止执行。如果当前线程正处于以下几种状态中，执行该方法当前线程会抛出中断异常 InterruptedException 并清除中断状态。以下方法需捕获中断异常进行处理：</p> <ul><li>Object.wait()</li> <li>join()</li> <li>sleep()</li></ul></li> <li><p><code>interrupted()</code> 静态方法，返回当前线程是否已中断，如果中断则重置中断标志为 false 并返回 true。这个方法可以拒绝中断。</p></li> <li><p><code>sleep(long millis)</code> / <code>sleep(long millis, int nanos)</code> 静态方法，使当前线程暂停执行一段时间，这个时间不是精确的，受操作系统计时器和调度程序的精度和准确性影响，其它线程中断当前线程也会停止此时间。</p> <p>线程暂停不会失去持有的锁。带纳秒参数的构造器其实内部调用的还是毫秒构造器，纳秒参数范围为 0 - 999999，当大于 500000 或者毫秒设置为 0，则毫秒加 1。</p></li> <li><p><code>yield()</code> 静态方法，告诉调度程序可以让出当前使用的处理器，调度程序可以忽略该请求。</p></li> <li><p><code>currentThread()</code> 静态方法，返回当前正在执行的线程对象的引用。</p></li> <li><p><code>holdsLock(Object o)</code> 静态方法，当前线程是否持有该对象的监视器锁（隐式锁）。</p></li> <li><p><code>onSpinWait()</code>静态方法，JDK 9 引入，表示当前正在等待某个条件无法执行，调用线程将向运行时指示其正在等待。</p></li> <li><p><code>dumpStack()</code> 静态方法，打印当前线程堆栈信息。</p></li> <li><p><code>activeCount()</code> 静态方法，返回当前线程的线程组及其子线程组内的活动线程数量的估计值，用于监控和调试。</p></li></ul> <h2 id="线程创建和任务执行"><a href="#线程创建和任务执行" class="header-anchor">🎋</a> 线程创建和任务执行</h2> <p>Thread 类提供了构造器和 <code>start()</code> 方法来创建和启动线程。比如：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token class-name">Thread</span> thread <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+thread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>运行一下，没感觉到有什么变化，因为我们创建了一个空线程嘛，什么也没让它做。那如何让线程按我们的指示去做呢？</p> <p><strong>线程启动后，JVM 会去调用线程的 <code>run()</code> 方法去执行</strong>。首先我们看一下Thread 类的 <code>run()</code>方法：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token comment">/* What will be run. */</span>
+<span class="token keyword">private</span> <span class="token class-name">Runnable</span> target<span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>target <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        target<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>可以看到，thread 类的 <code>run()</code> 方法实际上是执行的 target 的 <code>run()</code> 方法，而 target 是 Runnable 接口的对象，也就是说，我们要创建一个任务，然后交给线程去执行，这个任务呢，要实现 Runnable 接口。</p> <p>那这个任务怎么交给线程呢？Thread 类提供了构造器 <code>Thread(ThreadGroup, Runnable, String)</code> 来接收这个对象。</p> <blockquote><p>所以我们需要创建一个类实现 Runnable 接口，给 <code>run()</code> 方法指定一个行为，然后作为构造器参数交给线程执行就好了。</p></blockquote> <p>Thread 类也实现了 Runnable 接口，但是 Thread 类没有具体行为，我们通过继承 Thread 类重写 <code>run()</code> 方法不就有行为了嘛。</p> <blockquote><p>所以我们还可以继承 Thread 类并重写 <code>run()</code> 方法，然后作为构造器参数交给线程执行就可以了。</p></blockquote> <p>以上两种方式都是如何创建任务，其中，继承 Thread 类就不能继承其他类了，而实现接口比较灵活，且 Java 8 lambada 表达式语法可以将接口作为方法引用或者构造器参数，使得 <code>run()</code> 方法可以很方便的被实现：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token comment">// 参数为 Runnable 实现类的构造器</span>
+<span class="token class-name">Thread</span> thread <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;执行run方法&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+thread<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="custom-block warning"><p class="custom-block-title">特别注意</p> <p>使用构造器创建线程默认继承当前线程的两个属性：是否是守护线程以及线程优先级。如果没有指定线程组，则继承父线程的线程组。</p> <p>JDK 8 及以前会默认继承线程局部变量，JDK 9 默认不继承，而是新增了一个构造器，让用户决定是否开启继承。</p></div> <h3 id="线程工厂创建"><a href="#线程工厂创建" class="header-anchor">🎋</a> 线程工厂创建</h3> <p>JDK 5 提供了 ThreadFactory 接口作为线程工厂，提供了 <code>newThread(Runnable r)</code> 方法来创建线程。通过线程工厂，我们可以统一定义线程组，初始化线程优先级，自定义线程名称、初始化线程守护状态等操作。</p> <p>自定义线程工厂代码示例：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProductThreadFactory</span> <span class="token keyword">implements</span> <span class="token class-name">ThreadFactory</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">ThreadGroup</span> threadGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadGroup</span><span class="token punctuation">(</span><span class="token string">&quot;Product-flow&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">AtomicInteger</span> threadNum <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">String</span> taskName<span class="token punctuation">;</span>
+
+    <span class="token class-name">ProductThreadFactory</span><span class="token punctuation">(</span><span class="token class-name">String</span> taskName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>taskName <span class="token operator">=</span> <span class="token string">&quot;From Class ProductFactory‘s&quot;</span> <span class="token operator">+</span> taskName<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Thread</span> <span class="token function">newThread</span><span class="token punctuation">(</span><span class="token class-name">Runnable</span> r<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> <span class="token class-name">Thread</span> thread <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>threadGroup<span class="token punctuation">,</span> r<span class="token punctuation">,</span> taskName <span class="token operator">+</span> threadNum<span class="token punctuation">.</span><span class="token function">getAndIncrement</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        thread<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        thread<span class="token punctuation">.</span><span class="token function">setDaemon</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        thread<span class="token punctuation">.</span><span class="token function">setUncaughtExceptionHandler</span><span class="token punctuation">(</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> e<span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> thread<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// new ProductThreadFactory(&quot;&quot;).newThread(() -&gt; {}).start();</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><div class="custom-block warning"><p class="custom-block-title">阿里巴巴 Java 开发手册（嵩山版）</p> <p>【强制】创建线程或线程池时请指定有意义的线程名称，方便出错时回溯。</p> <p>自定义线程工厂，并且根据外部特征进行分组。</p></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/pycrab/KeepJava/edit/master/jdk/concurrency/thread.md" target="_blank" rel="noopener noreferrer">Edit Me On Github</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2020/12/3 下午3:48:31</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/KeepJava/jdk/concurrency/" class="prev router-link-active">
+        Java 并发编程
+      </a></span> <span class="next"><a href="/KeepJava/jdk/concurrency/lock.html">
+        同步和锁机制
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/KeepJava/assets/js/app.95e4ac80.js" defer></script><script src="/KeepJava/assets/js/2.73d6ef14.js" defer></script><script src="/KeepJava/assets/js/25.3cc78923.js" defer></script>
+  </body>
+</html>
