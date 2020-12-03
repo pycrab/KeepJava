@@ -13,9 +13,9 @@ next: ./git
 
 >  [SVN 官网地址](https://subversion.apache.org/)，对于 SVN 本文仅了解一些常用的操作。
 >
-> 推荐的 SVN Windows客户端工具 [TortoiseSVN](https://tortoisesvn.net/downloads.html)，人称小乌龟，用于将修改提交到服务端
+> 推荐的 SVN Windows 客户端工具 [TortoiseSVN](https://tortoisesvn.net/downloads.html)，人称小乌龟，用于将修改提交到服务端
 >
-> 推荐的 SVN Windows服务端工具 [VisualSVN](https://www.visualsvn.com/downloads/)，用于权限管理、资源管理、版本管理等
+> 推荐的 SVN Windows 服务端工具 [VisualSVN](https://www.visualsvn.com/downloads/)，用于权限管理、资源管理、版本管理等
 
 SVN，全称 Subversion， 是一个开源的集中式版本控制系统。
 
@@ -26,7 +26,7 @@ SVN，全称 Subversion， 是一个开源的集中式版本控制系统。
 
 ## TortoiseSVN 的使用
 
-Windows开始菜单 TortoiseSVN 的安装程序中，打开 Settings 可以进行个性化设置。简要的工作流程：
+Windows 开始菜单 TortoiseSVN 的安装程序中，打开 Settings 可以进行个性化设置。简要的工作流程：
 
 - 初始化工作区 `checkout`
 - 获取远程最新文件 `update`
